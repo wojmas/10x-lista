@@ -1,0 +1,41 @@
+# Render Blueprint — lista-zakupow (Laravel 13 / PHP 8.3, Docker) + Neon Postgres
+# Sekrety (APP_KEY, DB_URL, APP_URL) ustawiane RĘCZNIE w panelu Render (sync: false).
+# NIE twórz Render Postgres — baza wyłącznie na Neon (Render free Postgres kasuje dane po 30 dniach).
+services:
+  - type: web
+    name: lista-zakupow
+    runtime: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /up
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_LOCALE
+        value: pl
+      - key: APP_FALLBACK_LOCALE
+        value: pl
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_SSLMODE
+        value: require
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      # --- sekrety / wartości uzupełniane w panelu ---
+      - key: APP_KEY      # `php artisan key:generate --show`
+        sync: false
+      - key: DB_URL       # pooled connection string z Neona (?sslmode=require)
+        sync: false
+      - key: APP_URL      # https://<nazwa>.onrender.com (po nadaniu nazwy)
+        sync: false

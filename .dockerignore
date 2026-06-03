@@ -1,0 +1,13 @@
+.git
+.idea
+.claude
+context
+node_modules
+vendor
+docker-compose.yml
+.env
+.env.example
+tests
+.github
+storage/logs/*
+draft.md
