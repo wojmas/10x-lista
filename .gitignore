@@ -6,6 +6,8 @@
 .phpactor.json
 .phpunit.result.cache
 /.claude/
+/.composer
+/.config
 /CLAUDE.md
 /.codex
 /.cursor/
