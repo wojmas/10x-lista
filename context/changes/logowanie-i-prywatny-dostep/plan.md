@@ -369,6 +369,32 @@ Po pierwszym wdrożeniu tej zmiany konieczny jest **jeden ręczny krok**: urucho
 
 Wycofanie: kolumna `role` ma metodę `down()` usuwającą pole; reszta zmian to kod, więc cofnięcie to rewert commita i ponowne wdrożenie.
 
+## Addendum — deviations taken during implementation
+
+Decisions made while executing the plan that the plan itself did not anticipate. Recorded so that
+`/10x-archive` and any later review read them as choices, not as drift.
+
+- **`config/app.php` now defaults `app.name` to `Lista zakupów`** (Phase 4). The plan asked for a
+  Polish page title but also forbade touching `render.yaml`, which is where production gets its
+  environment — and it does not set `APP_NAME`. Changing the config default satisfies both.
+- **`.gitignore` gained `/.composer` and `/.config`** (Phases 1 and 3). Running Composer and Tinker
+  inside the container as root creates these cache directories inside the mounted repository.
+- **The navigation link was retargeted, not removed** (Phase 2). The plan said to drop the
+  `Dashboard` link; removing it outright would have left the header with no link at all, so it now
+  points at `route('home')` under a new `Shopping list` translation key.
+- **`resources/views/welcome.blade.php` was deleted** (Phase 2). The plan named it in the prose of
+  the home-page change but not in the list of files to remove.
+- **`lang/en/` was published and then deleted** (Phase 4). `lang:publish` was only the source text
+  to translate from; with `APP_FALLBACK_LOCALE=pl` those four files would never be read.
+
+Changes applied later, during `/10x-impl-review` (see `reviews/impl-review.md`):
+
+- **F1** — `RegisteredUserController::store()` redirected to `route('dashboard')`, deleted in
+  Phase 2, so enabling `REGISTRATION_ENABLED` produced a 500 after creating the account. Retargeted
+  to `route('home')`; `tests/Feature/Auth/RegistrationEnabledTest.php` now covers the enabled path.
+- **F3** — `danger-button`, `modal` and `secondary-button` Blade components were left behind with no
+  callers after the profile screen was removed in Phase 2. Deleted.
+
 ## References
 
 - Roadmapa, pozycja S-01: `context/foundation/roadmap.md`
