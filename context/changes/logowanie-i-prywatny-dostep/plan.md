@@ -400,33 +400,33 @@ Wycofanie: kolumna `role` ma metodę `down()` usuwającą pole; reszta zmian to 
 
 #### Automated
 
-- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [x] 2.2 Gość jest przekierowywany ze strony głównej — pokryte przerobionym `ExampleTest`
-- [x] 2.3 `/register` zwraca 404 przy domyślnej konfiguracji — pokryte przerobionym `RegistrationTest`
-- [x] 2.4 Zalogowanie przekierowuje na `route('home')` — pokryte poprawionym `AuthenticationTest`
-- [x] 2.5 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh`
-- [x] 2.6 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test` — 7c31a13
+- [x] 2.2 Gość jest przekierowywany ze strony głównej — pokryte przerobionym `ExampleTest` — 7c31a13
+- [x] 2.3 `/register` zwraca 404 przy domyślnej konfiguracji — pokryte przerobionym `RegistrationTest` — 7c31a13
+- [x] 2.4 Zalogowanie przekierowuje na `route('home')` — pokryte poprawionym `AuthenticationTest` — 7c31a13
+- [x] 2.5 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh` — 7c31a13
+- [x] 2.6 Formatowanie zgodne: `php artisan pint --test` — 7c31a13
 
 #### Manual
 
-- [x] 2.7 Wejście na `/` bez sesji ląduje na `/login`
-- [x] 2.8 Po zalogowaniu widać stronę główną pod adresem `/`, bez śladu `/dashboard`
-- [x] 2.9 W nagłówku nie ma odnośnika do profilu; wylogowanie działa i wraca na ekran logowania
-- [x] 2.10 `REGISTRATION_ENABLED=true` przywraca `/register`, po sprawdzeniu przywrócone `false`
+- [x] 2.7 Wejście na `/` bez sesji ląduje na `/login` — 7c31a13
+- [x] 2.8 Po zalogowaniu widać stronę główną pod adresem `/`, bez śladu `/dashboard` — 7c31a13
+- [x] 2.9 W nagłówku nie ma odnośnika do profilu; wylogowanie działa i wraca na ekran logowania — 7c31a13
+- [x] 2.10 `REGISTRATION_ENABLED=true` przywraca `/register`, po sprawdzeniu przywrócone `false` — 7c31a13
 
 ### Phase 3: Konta rodziny
 
 #### Automated
 
-- [ ] 3.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 3.2 Komenda jest widoczna w rejestrze: `php artisan list` zawiera `app:user:create`
-- [ ] 3.3 Formatowanie zgodne: `php artisan pint --test`
+- [x] 3.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 3.2 Komenda jest widoczna w rejestrze: `php artisan list` zawiera `app:user:create`
+- [x] 3.3 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 
-- [ ] 3.4 `php artisan app:user:create` zakłada konto, którym da się zalogować przez formularz
-- [ ] 3.5 Powtórzenie komendy z tym samym adresem odmawia i nie tworzy drugiego konta
-- [ ] 3.6 Hasło nie pojawia się w echu terminala podczas wpisywania
+- [x] 3.4 `php artisan app:user:create` zakłada konto, którym da się zalogować przez formularz
+- [x] 3.5 Powtórzenie komendy z tym samym adresem odmawia i nie tworzy drugiego konta
+- [x] 3.6 Hasło nie pojawia się w echu terminala podczas wpisywania
 
 ### Phase 4: Polonizacja i responsywność
 

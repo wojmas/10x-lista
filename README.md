@@ -24,6 +24,30 @@ Sekrety ustawiane ręcznie w panelu Render (nie w repo — repozytorium jest pub
 
 Pełny przebieg wdrożenia: [`context/deployment/deploy-plan.md`](context/deployment/deploy-plan.md).
 
+### Zakładanie kont po wdrożeniu
+
+Aplikacja nie ma publicznej rejestracji — konta zakłada wyłącznie właściciel. `docker/entrypoint.sh`
+celowo uruchamia tylko `migrate --force`, **nigdy `db:seed`**, więc po pierwszym wdrożeniu baza jest
+pusta i nikt się nie zaloguje, dopóki nie założysz kont ręcznie.
+
+W panelu Render otwórz powłokę usługi (**Shell**) i uruchom raz na każdego członka rodziny:
+
+```bash
+php artisan app:user:create
+```
+
+Komenda zapyta o imię, adres e-mail i hasło. Hasło podawane jest w ukrytym promptcie i **nigdy** nie
+jest argumentem — argumenty trafiają do historii powłoki, a repozytorium jest publiczne. Próba
+założenia konta na istniejącym adresie kończy się błędem i nie nadpisuje istniejącego konta.
+
+Imię i adres można podać z góry, hasło zawsze zostanie dopytane:
+
+```bash
+php artisan app:user:create "Wojtek" wojtek@example.com
+```
+
+Lokalnie to samo przez `docker compose exec app php artisan app:user:create`.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
