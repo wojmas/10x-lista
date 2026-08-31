@@ -17,6 +17,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Public Registration
+    |--------------------------------------------------------------------------
+    |
+    | The PRD forbids public sign-up: accounts are created only by the owner
+    | via the "app:user:create" command. The registration controller and view
+    | still ship with the app, but their routes are not registered unless this
+    | flag is on. It MUST default to false — a missing env var on a public
+    | deployment would otherwise mean an open registration form.
+    |
+    */
+
+    'registration_enabled' => env('REGISTRATION_ENABLED', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

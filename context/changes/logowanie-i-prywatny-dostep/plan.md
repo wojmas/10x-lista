@@ -385,34 +385,34 @@ Wycofanie: kolumna `role` ma metodę `down()` usuwającą pole; reszta zmian to 
 
 #### Automated
 
-- [x] 1.1 Instalacja zależności przechodzi: `composer install`
-- [x] 1.2 Build frontendu przechodzi: `npm run build`
-- [x] 1.3 `tailwind.config.js` i `postcss.config.js` nie istnieją
-- [x] 1.4 `package.json` deklaruje `tailwindcss` w wersji `^4` i nadal `@tailwindcss/vite`
-- [x] 1.5 Testy uwierzytelniania Breeze przechodzą: `php artisan test --filter=AuthenticationTest`
+- [x] 1.1 Instalacja zależności przechodzi: `composer install` — 5a18c60
+- [x] 1.2 Build frontendu przechodzi: `npm run build` — 5a18c60
+- [x] 1.3 `tailwind.config.js` i `postcss.config.js` nie istnieją — 5a18c60
+- [x] 1.4 `package.json` deklaruje `tailwindcss` w wersji `^4` i nadal `@tailwindcss/vite` — 5a18c60
+- [x] 1.5 Testy uwierzytelniania Breeze przechodzą: `php artisan test --filter=AuthenticationTest` — 5a18c60
 
 #### Manual
 
-- [x] 1.6 `/login` renderuje się poprawnie na Tailwindzie 4 — pola formularza mają obramowanie i widoczny stan focus
-- [x] 1.7 Rozwijane menu w nagłówku otwiera się (Alpine.js przetrwał przywracanie frontendu)
+- [x] 1.6 `/login` renderuje się poprawnie na Tailwindzie 4 — pola formularza mają obramowanie i widoczny stan focus — 5a18c60
+- [x] 1.7 Rozwijane menu w nagłówku otwiera się (Alpine.js przetrwał przywracanie frontendu) — 5a18c60
 
 ### Phase 2: Zawężenie kitu do MVP
 
 #### Automated
 
-- [ ] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 2.2 Gość jest przekierowywany ze strony głównej — pokryte przerobionym `ExampleTest`
-- [ ] 2.3 `/register` zwraca 404 przy domyślnej konfiguracji — pokryte przerobionym `RegistrationTest`
-- [ ] 2.4 Zalogowanie przekierowuje na `route('home')` — pokryte poprawionym `AuthenticationTest`
-- [ ] 2.5 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh`
-- [ ] 2.6 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 2.2 Gość jest przekierowywany ze strony głównej — pokryte przerobionym `ExampleTest`
+- [x] 2.3 `/register` zwraca 404 przy domyślnej konfiguracji — pokryte przerobionym `RegistrationTest`
+- [x] 2.4 Zalogowanie przekierowuje na `route('home')` — pokryte poprawionym `AuthenticationTest`
+- [x] 2.5 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh`
+- [x] 2.6 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 
-- [ ] 2.7 Wejście na `/` bez sesji ląduje na `/login`
-- [ ] 2.8 Po zalogowaniu widać stronę główną pod adresem `/`, bez śladu `/dashboard`
-- [ ] 2.9 W nagłówku nie ma odnośnika do profilu; wylogowanie działa i wraca na ekran logowania
-- [ ] 2.10 `REGISTRATION_ENABLED=true` przywraca `/register`, po sprawdzeniu przywrócone `false`
+- [x] 2.7 Wejście na `/` bez sesji ląduje na `/login`
+- [x] 2.8 Po zalogowaniu widać stronę główną pod adresem `/`, bez śladu `/dashboard`
+- [x] 2.9 W nagłówku nie ma odnośnika do profilu; wylogowanie działa i wraca na ekran logowania
+- [x] 2.10 `REGISTRATION_ENABLED=true` przywraca `/register`, po sprawdzeniu przywrócone `false`
 
 ### Phase 3: Konta rodziny
 
