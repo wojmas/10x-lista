@@ -1,8 +1,9 @@
 ---
 project: lista-zakupow
 created_at: 2026-06-03
-status: executed-phase-A
+status: deployed
 platform: Render (free web, Docker) + Neon (free Postgres)
+production_url: https://lista-zakupow-acl5.onrender.com
 repo: git@github.com:wojmas/10x-lista.git
 source_of_truth: context/foundation/infrastructure.md
 ---
@@ -83,6 +84,21 @@ w Plan Mode i odzwierciedla stan po wykonaniu **Fazy A** (kod + smoke test + pus
 - Cookie sesji ma flagę `Secure` (trust proxy + HTTPS).
 - Test auto-deployu: drobny commit na `main` → automatyczny build+deploy.
 - Cold start po 15 min bezczynności ~1 min (zaakceptowane na MVP).
+
+## Produkcja — weryfikacja na żywo (2026-06-03)
+
+URL: **https://lista-zakupow-acl5.onrender.com**
+
+```
+/up   → HTTP 200 (0.14s)
+/     → HTTP 200
+HTTPS → HTTP/2 (Render/Cloudflare)
+cookie laravel-session → secure; httponly  (trust proxy + SESSION_SECURE_COOKIE działa)
+baza  → sesja zapisana = połączenie z Neon OK, brak 500
+```
+
+Pozostało (opcjonalnie): ustawić `APP_URL=https://lista-zakupow-acl5.onrender.com` w panelu Render
+(dla absolutnych URL-i generowanych poza kontekstem żądania) → Save → redeploy.
 
 ## Smoke test — wynik (2026-06-03)
 
