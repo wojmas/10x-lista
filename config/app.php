@@ -13,7 +13,10 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    // The default is Polish because production reads its environment from
+    // render.yaml, which does not set APP_NAME — without this the page title
+    // would fall back to "Laravel" on the deployed site.
+    'name' => env('APP_NAME', 'Lista zakupów'),
 
     /*
     |--------------------------------------------------------------------------

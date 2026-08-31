@@ -418,30 +418,30 @@ Wycofanie: kolumna `role` ma metodę `down()` usuwającą pole; reszta zmian to 
 
 #### Automated
 
-- [x] 3.1 Cały zestaw testów przechodzi: `composer test`
-- [x] 3.2 Komenda jest widoczna w rejestrze: `php artisan list` zawiera `app:user:create`
-- [x] 3.3 Formatowanie zgodne: `php artisan pint --test`
+- [x] 3.1 Cały zestaw testów przechodzi: `composer test` — 7935e67
+- [x] 3.2 Komenda jest widoczna w rejestrze: `php artisan list` zawiera `app:user:create` — 7935e67
+- [x] 3.3 Formatowanie zgodne: `php artisan pint --test` — 7935e67
 
 #### Manual
 
-- [x] 3.4 `php artisan app:user:create` zakłada konto, którym da się zalogować przez formularz
-- [x] 3.5 Powtórzenie komendy z tym samym adresem odmawia i nie tworzy drugiego konta
-- [x] 3.6 Hasło nie pojawia się w echu terminala podczas wpisywania
+- [x] 3.4 `php artisan app:user:create` zakłada konto, którym da się zalogować przez formularz — 7935e67
+- [x] 3.5 Powtórzenie komendy z tym samym adresem odmawia i nie tworzy drugiego konta — 7935e67
+- [x] 3.6 Hasło nie pojawia się w echu terminala podczas wpisywania — 7935e67
 
 ### Phase 4: Polonizacja i responsywność
 
 #### Automated
 
-- [ ] 4.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 4.2 Build frontendu przechodzi: `npm run build`
-- [ ] 4.3 Formatowanie zgodne: `php artisan pint --test`
-- [ ] 4.4 `lang/pl/auth.php` zawiera klucze `failed` i `throttle`
+- [x] 4.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 4.2 Build frontendu przechodzi: `npm run build`
+- [x] 4.3 Formatowanie zgodne: `php artisan pint --test`
+- [x] 4.4 `lang/pl/auth.php` zawiera klucze `failed` i `throttle`
 
 #### Manual
 
-- [ ] 4.5 Ekran logowania jest w całości po polsku — etykiety, przycisk, checkbox „Zapamiętaj mnie"
-- [ ] 4.6 Logowanie błędnym hasłem pokazuje polski komunikat
-- [ ] 4.7 Sześć nieudanych prób daje polski komunikat o zbyt wielu próbach z liczbą sekund
-- [ ] 4.8 Formularz logowania i nagłówek wyglądają poprawnie na szerokości ~375 px, bez poziomego przewijania
-- [ ] 4.9 „Zapamiętaj mnie" zachowuje zalogowanie po ponownym otwarciu przeglądarki
-- [ ] 4.10 Źródło strony ma `<html lang="pl">`
+- [x] 4.5 Ekran logowania jest w całości po polsku — etykiety, przycisk, checkbox „Zapamiętaj mnie"
+- [x] 4.6 Logowanie błędnym hasłem pokazuje polski komunikat
+- [x] 4.7 Sześć nieudanych prób daje polski komunikat o zbyt wielu próbach z liczbą sekund
+- [x] 4.8 Formularz logowania i nagłówek wyglądają poprawnie na szerokości ~375 px, bez poziomego przewijania
+- [x] 4.9 „Zapamiętaj mnie" zachowuje zalogowanie po ponownym otwarciu przeglądarki
+- [x] 4.10 Źródło strony ma `<html lang="pl">`
