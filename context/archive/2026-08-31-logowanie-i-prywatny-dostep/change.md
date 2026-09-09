@@ -1,10 +1,10 @@
 ---
 change_id: logowanie-i-prywatny-dostep
 title: Logowanie i prywatny dostęp
-status: impl_reviewed
+status: archived
 created: 2026-08-31
-updated: 2026-08-31
-archived_at: null
+updated: 2026-09-09
+archived_at: 2026-09-09T12:57:45Z
 ---
 
 ## Notes
