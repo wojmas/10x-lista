@@ -79,6 +79,28 @@ class AddProductTest extends TestCase
         $this->assertSame(0, Product::query()->count());
     }
 
+    /**
+     * The form asks for a category one way or the other, never both — picking
+     * from the list and typing a new name at the same time has no defined
+     * meaning, and silently honouring one of the two would surprise whoever
+     * filled in the other.
+     */
+    public function test_filling_both_category_fields_is_rejected(): void
+    {
+        $category = Category::factory()->create(['name' => 'Nabiał']);
+
+        $this->actingAs(User::factory()->create())
+            ->post('/products', [
+                'name' => 'Mleko',
+                'category_id' => $category->id,
+                'new_category' => 'Soki',
+            ])
+            ->assertSessionHasErrors('category_id');
+
+        $this->assertSame(0, Product::query()->count());
+        $this->assertSame(1, Category::query()->count());
+    }
+
     public function test_the_form_offers_the_seeded_categories(): void
     {
         Category::factory()->create(['name' => 'Pieczywo']);

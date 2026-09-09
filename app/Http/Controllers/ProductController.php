@@ -6,8 +6,10 @@ use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Support\NameComparison;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use RuntimeException;
 
 class ProductController extends Controller
 {
@@ -63,10 +65,27 @@ class ProductController extends Controller
 
         $typed = trim($request->string('new_category')->toString());
 
-        $existing = Category::query()
-            ->get()
-            ->first(fn (Category $category): bool => NameComparison::matches($category->name, $typed));
+        if ($existing = $this->findCategoryNamed($typed)) {
+            return $existing;
+        }
 
-        return $existing ?? Category::create(['name' => $typed]);
+        // Lookup and insert are two steps, so two members typing the same brand
+        // new category at the same moment can both get past the lookup. The
+        // second insert then trips the unique index; rather than serving a 500
+        // and losing the product, take the category the other request just made.
+        try {
+            return Category::create(['name' => $typed]);
+        } catch (UniqueConstraintViolationException) {
+            return $this->findCategoryNamed($typed) ?? throw new RuntimeException(
+                "Nie udało się utworzyć ani odnaleźć kategorii [{$typed}]."
+            );
+        }
+    }
+
+    private function findCategoryNamed(string $name): ?Category
+    {
+        return Category::query()
+            ->get()
+            ->first(fn (Category $category): bool => NameComparison::matches($category->name, $name));
     }
 }

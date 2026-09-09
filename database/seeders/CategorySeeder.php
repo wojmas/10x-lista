@@ -3,14 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Support\NameComparison;
 use Illuminate\Database\Seeder;
 
 /**
  * Starter set of categories so the product form has something to offer right
- * after a fresh install. Idempotent on purpose: production runs migrations on
- * every container start, and re-running this must never duplicate a category —
- * duplicates would split the vocabulary that the S-04 recommendation rule
- * compares against.
+ * after a fresh install.
+ *
+ * Matching goes through NameComparison, not through an exact firstOrCreate:
+ * this seeder is a third writer of category rows next to the product form's
+ * two, and a member may well have typed "nabiał" before anyone runs the seeder
+ * on production. An exact match would then add "Nabiał" alongside it and split
+ * the vocabulary that the S-04 recommendation rule counts against.
  */
 class CategorySeeder extends Seeder
 {
@@ -32,8 +36,19 @@ class CategorySeeder extends Seeder
 
     public function run(): void
     {
+        $existing = Category::query()->pluck('name');
+
         foreach (self::CATEGORIES as $name) {
-            Category::firstOrCreate(['name' => $name]);
+            $alreadyThere = $existing->contains(
+                fn (string $known): bool => NameComparison::matches($known, $name)
+            );
+
+            if ($alreadyThere) {
+                continue;
+            }
+
+            Category::create(['name' => $name]);
+            $existing->push($name);
         }
     }
 }
