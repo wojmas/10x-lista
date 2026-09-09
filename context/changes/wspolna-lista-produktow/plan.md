@@ -334,16 +334,16 @@ przed commitem fazy, a nie tylko do rozmowy.
 
 #### Automated
 
-- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [x] 2.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [x] 2.3 Trasy `products.create` i `products.store` są zarejestrowane: `php artisan route:list`
-- [x] 2.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test` — 7f1ff8e
+- [x] 2.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed` — 7f1ff8e
+- [x] 2.3 Trasy `products.create` i `products.store` są zarejestrowane: `php artisan route:list` — 7f1ff8e
+- [x] 2.4 Formatowanie zgodne: `php artisan pint --test` — 7f1ff8e
 
 #### Manual
 
-- [x] 2.5 Dodanie produktu z wybraną kategorią wraca na stronę główną, gdzie pozycja jest widoczna
-- [x] 2.6 Dodanie produktu z nową nazwą kategorii tworzy ją i od razu jest dostępna w wyborze przy kolejnym produkcie
-- [x] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nie tworzy duplikatu na liście wyboru
-- [x] 2.8 Próba dodania produktu o nazwie już obecnej na liście pokazuje polski komunikat, a wpisane wartości zostają w formularzu
+- [x] 2.5 Dodanie produktu z wybraną kategorią wraca na stronę główną, gdzie pozycja jest widoczna — 7f1ff8e
+- [x] 2.6 Dodanie produktu z nową nazwą kategorii tworzy ją i od razu jest dostępna w wyborze przy kolejnym produkcie — 7f1ff8e
+- [x] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nie tworzy duplikatu na liście wyboru — 7f1ff8e
+- [x] 2.8 Próba dodania produktu o nazwie już obecnej na liście pokazuje polski komunikat, a wpisane wartości zostają w formularzu — 7f1ff8e
 - [ ] 2.9 Formularz czyta się i obsługuje poprawnie na szerokości ~375 px
-- [x] 2.10 Zalogowanie się drugim kontem pokazuje produkty dodane przez pierwsze
+- [x] 2.10 Zalogowanie się drugim kontem pokazuje produkty dodane przez pierwsze — 7f1ff8e
