@@ -278,6 +278,29 @@ Obie migracje tworzą nowe tabele — nic nie migruje istniejących danych, bo �
 
 Wycofanie: obie migracje mają `down()`; kolejność usuwania musi być odwrotna do tworzenia z powodu klucza obcego. Reszta to kod, więc cofnięcie to rewert commita i ponowne wdrożenie.
 
+## Addendum — deviations taken during implementation
+
+Zapisane zgodnie z regułą z `context/foundation/lessons.md`: odstępstwo od planu trafia do planu
+przed commitem fazy, a nie tylko do rozmowy.
+
+- **Nazwy pól w komunikatach walidacji idą przez `StoreProductRequest::attributes()`, nie przez
+  `lang/pl/validation.php`** (Faza 2, punkt 6). Globalna sekcja `attributes` mapuje `name` na
+  „imię" — poprawnie dla formularzy konta, błędnie dla produktu. Nadpisanie jej zepsułoby
+  komunikaty logowania, więc nazwy pól tego jednego formularza żyją w samym FormRequest.
+  `lang/pl/validation.php` pozostał nietknięty; reguły, których ten formularz używa (`required`,
+  `string`, `max`, `exists`), były już przetłumaczone w S-01.
+- **Przycisk „Dodaj produkt" stoi w nagłówku strony głównej**, nie w treści karty (Faza 2,
+  punkt 5). Plan wymagał widoczności zarówno przy pustej, jak i wypełnionej liście — nagłówek
+  spełnia oba warunki jednym elementem, bez powtarzania przycisku w dwóch gałęziach `@if`.
+- **`NameComparison` wystawia dwie metody, `normalize()` i `matches()`** (Faza 2, punkt 1). Plan
+  opisywał samą normalizację; `matches()` to cienki wrapper, dzięki któremu oba miejsca wywołania
+  czytają się jako porównanie, a nie jako ręczne zestawienie dwóch znormalizowanych ciągów.
+- **Blokada duplikatu produktu czyta nazwy do PHP zamiast porównywać je w SQL** (Faza 2, punkt 2).
+  Plan przewidywał regułę walidacyjną, ale nie rozstrzygał gdzie liczy się porównanie. `LOWER()`
+  jest w SQLite (testy) wyłącznie ASCII, a w produkcyjnym Postgresie zależny od locale — porównanie
+  po stronie bazy zachowywałoby się inaczej w obu środowiskach. Ograniczenie tego rozwiązania
+  (wczytanie wszystkich nazw) jest opisane w komentarzu przy metodzie.
+
 ## References
 
 - Roadmapa, pozycja S-02 i otwarte pytanie nr 1: `context/foundation/roadmap.md`
@@ -295,32 +318,32 @@ Wycofanie: obie migracje mają `down()`; kolejność usuwania musi być odwrotna
 
 #### Automated
 
-- [x] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [x] 1.2 Cały zestaw testów przechodzi: `composer test`
-- [x] 1.3 Trasa `home` nadal istnieje i wskazuje na kontroler: `php artisan route:list` pokazuje `GET /` o nazwie `home`
-- [x] 1.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed` — 75ab273
+- [x] 1.2 Cały zestaw testów przechodzi: `composer test` — 75ab273
+- [x] 1.3 Trasa `home` nadal istnieje i wskazuje na kontroler: `php artisan route:list` pokazuje `GET /` o nazwie `home` — 75ab273
+- [x] 1.4 Formatowanie zgodne: `php artisan pint --test` — 75ab273
 
 #### Manual
 
-- [x] 1.5 Po `migrate:fresh --seed` i zalogowaniu strona główna pokazuje komunikat o pustej liście
-- [x] 1.6 Po dodaniu produktu przez `tinker` pozycja pojawia się na liście razem z nazwą kategorii
+- [x] 1.5 Po `migrate:fresh --seed` i zalogowaniu strona główna pokazuje komunikat o pustej liście — 75ab273
+- [x] 1.6 Po dodaniu produktu przez `tinker` pozycja pojawia się na liście razem z nazwą kategorii — 75ab273
 - [ ] 1.7 Lista czyta się poprawnie na szerokości ~375 px, bez poziomego przewijania
-- [x] 1.8 Odnośnik „Lista zakupów" w nagłówku i wylogowanie nadal działają
+- [x] 1.8 Odnośnik „Lista zakupów" w nagłówku i wylogowanie nadal działają — 75ab273
 
 ### Phase 2: Dodawanie produktu z kategorią
 
 #### Automated
 
-- [ ] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 2.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [ ] 2.3 Trasy `products.create` i `products.store` są zarejestrowane: `php artisan route:list`
-- [ ] 2.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 2.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
+- [x] 2.3 Trasy `products.create` i `products.store` są zarejestrowane: `php artisan route:list`
+- [x] 2.4 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 
-- [ ] 2.5 Dodanie produktu z wybraną kategorią wraca na stronę główną, gdzie pozycja jest widoczna
-- [ ] 2.6 Dodanie produktu z nową nazwą kategorii tworzy ją i od razu jest dostępna w wyborze przy kolejnym produkcie
-- [ ] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nie tworzy duplikatu na liście wyboru
-- [ ] 2.8 Próba dodania produktu o nazwie już obecnej na liście pokazuje polski komunikat, a wpisane wartości zostają w formularzu
+- [x] 2.5 Dodanie produktu z wybraną kategorią wraca na stronę główną, gdzie pozycja jest widoczna
+- [x] 2.6 Dodanie produktu z nową nazwą kategorii tworzy ją i od razu jest dostępna w wyborze przy kolejnym produkcie
+- [x] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nie tworzy duplikatu na liście wyboru
+- [x] 2.8 Próba dodania produktu o nazwie już obecnej na liście pokazuje polski komunikat, a wpisane wartości zostają w formularzu
 - [ ] 2.9 Formularz czyta się i obsługuje poprawnie na szerokości ~375 px
-- [ ] 2.10 Zalogowanie się drugim kontem pokazuje produkty dodane przez pierwsze
+- [x] 2.10 Zalogowanie się drugim kontem pokazuje produkty dodane przez pierwsze
