@@ -327,7 +327,7 @@ przed commitem fazy, a nie tylko do rozmowy.
 
 - [x] 1.5 Po `migrate:fresh --seed` i zalogowaniu strona główna pokazuje komunikat o pustej liście — 75ab273
 - [x] 1.6 Po dodaniu produktu przez `tinker` pozycja pojawia się na liście razem z nazwą kategorii — 75ab273
-- [ ] 1.7 Lista czyta się poprawnie na szerokości ~375 px, bez poziomego przewijania
+- [x] 1.7 Lista czyta się poprawnie na szerokości ~375 px, bez poziomego przewijania — 75ab273
 - [x] 1.8 Odnośnik „Lista zakupów" w nagłówku i wylogowanie nadal działają — 75ab273
 
 ### Phase 2: Dodawanie produktu z kategorią
@@ -345,5 +345,5 @@ przed commitem fazy, a nie tylko do rozmowy.
 - [x] 2.6 Dodanie produktu z nową nazwą kategorii tworzy ją i od razu jest dostępna w wyborze przy kolejnym produkcie — 7f1ff8e
 - [x] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nie tworzy duplikatu na liście wyboru — 7f1ff8e
 - [x] 2.8 Próba dodania produktu o nazwie już obecnej na liście pokazuje polski komunikat, a wpisane wartości zostają w formularzu — 7f1ff8e
-- [ ] 2.9 Formularz czyta się i obsługuje poprawnie na szerokości ~375 px
+- [x] 2.9 Formularz czyta się i obsługuje poprawnie na szerokości ~375 px — 7f1ff8e
 - [x] 2.10 Zalogowanie się drugim kontem pokazuje produkty dodane przez pierwsze — 7f1ff8e

@@ -3,7 +3,7 @@ project: "Lista Zakupów"
 version: 1
 status: draft
 created: 2026-08-31
-updated: 2026-08-31
+updated: 2026-09-09
 prd_version: 1
 main_goal: quality
 top_blocker: none
@@ -32,8 +32,8 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | ID   | Change ID                      | Outcome (użytkownik może …)                                            | Prerequisites | PRD refs                     | Status   |
 | ---- | ------------------------------ | ---------------------------------------------------------------------- | ------------- | ---------------------------- | -------- |
 | F-01 | `trwalosc-danych-produkcyjnych` | (foundation) potwierdzona ścieżka odtworzenia produkcyjnej bazy danych | —             | §Guardrails, §NFR (24/7)     | ready    |
-| S-01 | `logowanie-i-prywatny-dostep`   | zalogować się i zobaczyć stronę główną niedostępną dla niezalogowanych | —             | FR-001, US-01, §Access Control | in-progress |
-| S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | proposed |
+| S-01 | `logowanie-i-prywatny-dostep`   | zalogować się i zobaczyć stronę główną niedostępną dla niezalogowanych | —             | FR-001, US-01, §Access Control | done     |
+| S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | in-progress |
 | S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | proposed |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | proposed |
 | S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | proposed |
@@ -87,7 +87,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Blockers:** —
 - **Unknowns:** — (konta zakładane wstępnie poza aplikacją, zgodnie z §Open Questions PRD)
 - **Risk:** to pierwszy kawałek wprowadzający układ strony, polskie tłumaczenia i responsywność — odłożenie tych decyzji oznacza przerabianie każdego kolejnego widoku. Ryzyko przeciwne: rozrost do panelu zarządzania kontami (FR-002/FR-003), które są odłożone.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-02: Wspólna lista produktów
 
@@ -100,7 +100,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Unknowns:**
   - Czy kategoria produktu to wybór ze stałej listy, czy dowolny tekst wpisywany przez użytkownika? — Owner: twórca. Block: no.
 - **Risk:** tutaj powstaje model kategorii, od którego zależą S-03 i S-04 — dowolny tekst rozbije dopasowanie w regule rekomendacji (literówka = niepokryta kategoria). Bariera „dodany produkt widoczny dla wszystkich" wymaga odczytu wspólnego dla rodziny, a nie listy per użytkownik.
-- **Status:** proposed
+- **Status:** in-progress
 
 ### S-03: Konfiguracja sklepów z kategoriami
 
@@ -167,3 +167,5 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 ## Done
 
 (Pusta przy pierwszej generacji. `/10x-archive` dopisuje tu pozycję i przestawia jej `Status` na `done`, gdy archiwizowana zmiana ma pasujący `Change ID`.)
+
+- **S-01: użytkownik loguje się loginem i hasłem, a niezalogowany zostaje przekierowany na stronę logowania — strona główna przestaje być publiczna.** — Archived 2026-09-09 → `context/archive/2026-08-31-logowanie-i-prywatny-dostep/`. Lesson: —.
