@@ -404,6 +404,13 @@ Odstępstwa od planu podjęte w trakcie implementacji, zapisane tu zgodnie z
   na Postgresie nieudana instrukcja przerywa transakcję, więc taki odczyt
   rzuciłby zamiast raportować — ta sama rozbieżność, którą dokumentuje
   `CategoryResolver`, i powód istnienia Fazy 4. Powód zapisany w komentarzu testu.
+- **Faza 3 — dotknięte także §2 i nagłówek `Last updated`.** Plan wymieniał
+  §3, §6.3 i §6.6. Wiersz #3 w §2 Risk Response Guidance twierdził, że
+  konsekwencja kolizji „zostaje niepokryta" — po Fazie 1 to nieprawda, a
+  zostawienie tego zdania byłoby dokładnie tą klasą błędu, którą ta faza usuwa
+  z zestawu (dokument kłamiący o własnym pokryciu). Zmieniona jedna klauzula w
+  tym wierszu; `Last updated` przepisane z backportu researchu na wykonanie
+  fazy. §1–§5 poza tym nietknięte.
 - **Faza 1 — „widoczne raz" zapinowane liczeniem wystąpień.** Plan mówił
   „widoczne na wyrenderowanej liście dokładnie raz"; `assertSee` tego nie liczy,
   więc test używa `substr_count()` na treści odpowiedzi. Widok renderuje jeden
@@ -433,25 +440,25 @@ Odstępstwa od planu podjęte w trakcie implementacji, zapisane tu zgodnie z
 
 #### Automated
 
-- [x] 2.1 Pełny zestaw zielony, o jeden test mniej niż po Fazie 1
-- [x] 2.2 Formatowanie (Pint)
+- [x] 2.1 Pełny zestaw zielony, o jeden test mniej niż po Fazie 1 — 0d20280
+- [x] 2.2 Formatowanie (Pint) — 0d20280
 
 #### Manual
 
-- [x] 2.3 `grep` po `tests/` nie znajduje innego testu twierdzącego o precedencji
-- [x] 2.4 Kontrola: usunięcie `orderBy('id')` nadal nie wywala zestawu (stan udokumentowany)
-- [x] 2.5 Docblock `index()` czyta się jako ostrzeżenie dla autora S-04
+- [x] 2.3 `grep` po `tests/` nie znajduje innego testu twierdzącego o precedencji — 0d20280
+- [x] 2.4 Kontrola: usunięcie `orderBy('id')` nadal nie wywala zestawu (stan udokumentowany) — 0d20280
+- [x] 2.5 Docblock `index()` czyta się jako ostrzeżenie dla autora S-04 — 0d20280
 
 ### Phase 3: Domknięcie planu testów
 
 #### Automated
 
-- [ ] 3.1 Brak `TBD` przy §6.3
-- [ ] 3.2 Wiersz 2 tabeli §3 ma `complete`, wiersz 4 wymienia `#1`
-- [ ] 3.3 Pełny zestaw dalej zielony
+- [x] 3.1 Brak `TBD` przy §6.3
+- [x] 3.2 Wiersz 2 tabeli §3 ma `complete`, wiersz 4 wymienia `#1`
+- [x] 3.3 Pełny zestaw dalej zielony
 
 #### Manual
 
-- [ ] 3.4 §6.3 czyta się jako instrukcja dla kogoś z zewnątrz zaczynającego S-04
-- [ ] 3.5 Uzasadnienie kolejności w §3 wyjaśnia odroczenie, nie tylko je odnotowuje
-- [ ] 3.6 Wpis §6.6 trzyma konwencję wpisu Fazy 1
+- [x] 3.4 §6.3 czyta się jako instrukcja dla kogoś z zewnątrz zaczynającego S-04
+- [x] 3.5 Uzasadnienie kolejności w §3 wyjaśnia odroczenie, nie tylko je odnotowuje
+- [x] 3.6 Wpis §6.6 trzyma konwencję wpisu Fazy 1
