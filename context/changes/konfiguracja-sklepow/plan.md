@@ -343,6 +343,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 - Wzorzec listy i formularza: `resources/views/home.blade.php`, `resources/views/products/create.blade.php`
 - Kod do wyciągnięcia w Fazie 2: `app/Http/Controllers/ProductController.php:60-90`
 
+## Implementation Deviations
+
+- **Faza 2 — `ProductController::resolveCategory()` zniknął zamiast zostać.** Kontrakt zmiany nr 2 mówił, że rozgałęzienie „wybrana kategoria kontra wpisana nazwa" zostaje w kontrolerze, ale kryterium sukcesu 2.3 wymaga, żeby metoda `resolveCategory` już nie istniała. Rozgałęzienie zostało w kontrolerze — wciągnięte wprost do `store()` (trzy linie), więc oba warunki są spełnione naraz. Zachowanie bez zmian: `AddProductTest` przechodzi bez modyfikacji.
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
@@ -351,10 +355,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Automated
 
-- [x] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [x] 1.2 Cały zestaw testów przechodzi: `composer test`
-- [x] 1.3 Trasa `shops.index` jest zarejestrowana: `php artisan route:list`
-- [x] 1.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed` — 5ce8809
+- [x] 1.2 Cały zestaw testów przechodzi: `composer test` — 5ce8809
+- [x] 1.3 Trasa `shops.index` jest zarejestrowana: `php artisan route:list` — 5ce8809
+- [x] 1.4 Formatowanie zgodne: `php artisan pint --test` — 5ce8809
 
 #### Manual
 
@@ -368,10 +372,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Automated
 
-- [ ] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 2.2 Testy formularza produktu przechodzą bez zmian w plikach testowych: `git diff --stat tests/Feature/AddProductTest.php` jest pusty
-- [ ] 2.3 `ProductController` nie zawiera już metod `resolveCategory` ani `findCategoryNamed`
-- [ ] 2.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 2.2 Testy formularza produktu przechodzą bez zmian w plikach testowych: `git diff --stat tests/Feature/AddProductTest.php` jest pusty
+- [x] 2.3 `ProductController` nie zawiera już metod `resolveCategory` ani `findCategoryNamed`
+- [x] 2.4 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 

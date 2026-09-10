@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Support\NameComparison;
-use Illuminate\Database\UniqueConstraintViolationException;
+use App\Support\CategoryResolver;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use RuntimeException;
 
 class ProductController extends Controller
 {
@@ -39,53 +37,24 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(StoreProductRequest $request): RedirectResponse
-    {
-        Product::create([
-            'name' => trim($request->string('name')->toString()),
-            'category_id' => $this->resolveCategory($request)->id,
-        ]);
-
-        return redirect()->route('home');
-    }
-
     /**
      * Either the member picked an existing category, or typed a new name.
      *
-     * A typed name is matched against existing categories through
-     * NameComparison first — without that, "Nabiał" typed next to an existing
-     * "nabiał" would create a second category and split the vocabulary that
-     * S-03 and S-04 compare against.
+     * The branch stays here because it depends on the shape of this request;
+     * finding-or-creating the category itself lives in CategoryResolver, shared
+     * with the shop form.
      */
-    private function resolveCategory(StoreProductRequest $request): Category
+    public function store(StoreProductRequest $request): RedirectResponse
     {
-        if ($request->filled('category_id')) {
-            return Category::findOrFail($request->integer('category_id'));
-        }
+        $category = $request->filled('category_id')
+            ? Category::findOrFail($request->integer('category_id'))
+            : CategoryResolver::resolve($request->string('new_category')->toString());
 
-        $typed = trim($request->string('new_category')->toString());
+        Product::create([
+            'name' => trim($request->string('name')->toString()),
+            'category_id' => $category->id,
+        ]);
 
-        if ($existing = $this->findCategoryNamed($typed)) {
-            return $existing;
-        }
-
-        // Lookup and insert are two steps, so two members typing the same brand
-        // new category at the same moment can both get past the lookup. The
-        // second insert then trips the unique index; rather than serving a 500
-        // and losing the product, take the category the other request just made.
-        try {
-            return Category::create(['name' => $typed]);
-        } catch (UniqueConstraintViolationException) {
-            return $this->findCategoryNamed($typed) ?? throw new RuntimeException(
-                "Nie udało się utworzyć ani odnaleźć kategorii [{$typed}]."
-            );
-        }
-    }
-
-    private function findCategoryNamed(string $name): ?Category
-    {
-        return Category::query()
-            ->get()
-            ->first(fn (Category $category): bool => NameComparison::matches($category->name, $name));
+        return redirect()->route('home');
     }
 }
