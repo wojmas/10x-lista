@@ -464,11 +464,11 @@ produkcji) zostają, ale kolejny duplikat zostanie od teraz odrzucony.
 
 #### Automated
 
-- [x] 3.1 Brak `TBD` przy §6.1 i §6.2
-- [x] 3.2 Wiersz 1 tabeli §3 ma status `complete`
-- [x] 3.3 Pełny zestaw dalej zielony
+- [x] 3.1 Brak `TBD` przy §6.1 i §6.2 — 9eb3950
+- [x] 3.2 Wiersz 1 tabeli §3 ma status `complete` — 9eb3950
+- [x] 3.3 Pełny zestaw dalej zielony — 9eb3950
 
 #### Manual
 
-- [x] 3.4 §6.1 i §6.2 czytają się jako instrukcja dla kogoś z zewnątrz
-- [x] 3.5 Nowe wpisy §7 trzymają konwencję pozostałych pięciu
+- [x] 3.4 §6.1 i §6.2 czytają się jako instrukcja dla kogoś z zewnątrz — 9eb3950
+- [x] 3.5 Nowe wpisy §7 trzymają konwencję pozostałych pięciu — 9eb3950

@@ -1,7 +1,7 @@
 ---
 change_id: testing-lista-i-duplikaty
 title: Rdzeń listy zakupów pod kształtem formularza
-status: implementing
+status: implemented
 created: 2026-09-10
 updated: 2026-09-10
 archived_at: null
