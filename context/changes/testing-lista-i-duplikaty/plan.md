@@ -448,27 +448,27 @@ produkcji) zostają, ale kolejny duplikat zostanie od teraz odrzucony.
 
 #### Automated
 
-- [x] 2.1 Zestaw funkcjonalny zielony
-- [x] 2.2 Pełny zestaw zielony i liczniejszy niż 49 testów
-- [x] 2.3 Formatowanie (Pint)
-- [x] 2.4 Migracje na czystej bazie
+- [x] 2.1 Zestaw funkcjonalny zielony — b085fd6
+- [x] 2.2 Pełny zestaw zielony i liczniejszy niż 49 testów — b085fd6
+- [x] 2.3 Formatowanie (Pint) — b085fd6
+- [x] 2.4 Migracje na czystej bazie — b085fd6
 
 #### Manual
 
-- [x] 2.5 Próba obalenia szwu ryzyka #2 (zawężenie zapytania w `index()`)
-- [x] 2.6 Próba obalenia komunikatu duplikatu (zmiana tekstu)
-- [x] 2.7 Próba obalenia zakresu blokady (zawężenie do `category_id`)
-- [x] 2.8 Dodanie produktu i duplikatu w przeglądarce — komunikat po polsku
+- [x] 2.5 Próba obalenia szwu ryzyka #2 (zawężenie zapytania w `index()`) — b085fd6
+- [x] 2.6 Próba obalenia komunikatu duplikatu (zmiana tekstu) — b085fd6
+- [x] 2.7 Próba obalenia zakresu blokady (zawężenie do `category_id`) — b085fd6
+- [x] 2.8 Dodanie produktu i duplikatu w przeglądarce — komunikat po polsku — b085fd6
 
 ### Phase 3: Domknięcie planu testów
 
 #### Automated
 
-- [ ] 3.1 Brak `TBD` przy §6.1 i §6.2
-- [ ] 3.2 Wiersz 1 tabeli §3 ma status `complete`
-- [ ] 3.3 Pełny zestaw dalej zielony
+- [x] 3.1 Brak `TBD` przy §6.1 i §6.2
+- [x] 3.2 Wiersz 1 tabeli §3 ma status `complete`
+- [x] 3.3 Pełny zestaw dalej zielony
 
 #### Manual
 
-- [ ] 3.4 §6.1 i §6.2 czytają się jako instrukcja dla kogoś z zewnątrz
-- [ ] 3.5 Nowe wpisy §7 trzymają konwencję pozostałych pięciu
+- [x] 3.4 §6.1 i §6.2 czytają się jako instrukcja dla kogoś z zewnątrz
+- [x] 3.5 Nowe wpisy §7 trzymają konwencję pozostałych pięciu

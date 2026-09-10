@@ -82,7 +82,7 @@ na dysku. Słownik statusów pozostaje po angielsku, bo czyta go parser.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
-| 1 | Rdzeń listy zakupów pod kształtem formularza | Dowieść, że produkt dodany przez jednego członka jest widoczny dla drugiego, a blokada duplikatu trafia w obie strony | #2, #5 | integration, unit | change opened | `context/changes/testing-lista-i-duplikaty/` |
+| 1 | Rdzeń listy zakupów pod kształtem formularza | Dowieść, że produkt dodany przez jednego członka jest widoczny dla drugiego, a blokada duplikatu trafia w obie strony | #2, #5 | integration, unit | complete | `context/changes/testing-lista-i-duplikaty/` |
 | 2 | Kontrakty rekomendacji przed S-04 | Dowieść, że kolejność rozstrzygania remisu i tożsamość przypisania kategorii trzymają, zanim powstanie reguła, która na nich stanie | #1, #3 | integration, unit | not started | — |
 | 3 | Bramka dostępu na poziomie tabeli tras | Dowieść, że żadna trasa z danymi rodziny nie przecieka do niezalogowanego — także dodana w przyszłości | #4 | integration | not started | — |
 | 4 | Przebieg zestawu na silniku produkcyjnym | Dowieść, że zestaw daje się wykonać na Postgresie, nie tylko na SQLite | #6 | konfiguracja przebiegu | not started | — |
@@ -160,14 +160,58 @@ odpowiednia faza wdrożenia wyląduje; wcześniej czyta się jako
 
 ### 6.1 Dodanie testu jednostkowego
 
-- TBD — patrz §3 Faza 1 (wzorzec dla reguły równości nazw: co rodzina uważa za
-  ten sam produkt, a co za dwa różne).
+Dla reguły, która daje się zawołać bez bazy i bez HTTP.
+
+- **Gdzie**: `tests/Unit/`
+- **Klasa bazowa**: `PHPUnit\Framework\TestCase` — **nie** `Tests\TestCase`.
+  Konwencja tego projektu to „Unit = bez kontenera Laravela", nie „Unit = jedna
+  klasa". Test, który potrzebuje bazy, idzie do `tests/Feature/`, nawet jeśli
+  woła kod wprost i nie dotyka HTTP (tak stoją `CategoryResolverTest` i
+  `CategorySeederTest`).
+- **Test referencyjny**: `tests/Unit/NameComparisonTest.php`
+- **Przebieg**: `docker compose exec app php vendor/bin/phpunit --testsuite Unit`
+- **Nazwy metod opisują, co rodzina uważa za tę samą rzecz**, nie jak działa
+  implementacja: `test_a_doubled_space_inside_a_name_is_the_same_product`, nie
+  `test_normalize_collapses_whitespace`. Jeśli nazwy testu nie da się napisać bez
+  zajrzenia do implementacji, para oczekiwań pochodzi z niewłaściwego źródła —
+  patrz problem wyroczni w §2.
+- **Pary oczekiwań wyprowadza się z decyzji, nie z kodu.** Decyzje spisane do
+  dziś: wielkość liter nieznacząca, otaczające i wewnętrzne odstępy nieznaczące,
+  polskie znaki diakrytyczne **znaczące**. Nowa decyzja tej klasy wymaga
+  rozstrzygnięcia właściciela, zanim powstanie test.
 
 ### 6.2 Dodanie testu integracyjnego formularza
 
-- TBD — patrz §3 Faza 1 (wzorzec dla ścieżki „dodaj i zobacz na liście":
-  ładunek w kształcie formularza, podążenie za przekierowaniem, odczyt z sesji
-  innego członka).
+Dla ścieżki „wyślij formularz i zobacz wynik na ekranie".
+
+- **Gdzie**: `tests/Feature/`
+- **Klasa bazowa**: `Tests\TestCase` + cecha `RefreshDatabase`
+- **Test referencyjny**: `tests/Feature/AddProductTest.php`
+- **Przebieg**: `docker compose exec app php vendor/bin/phpunit --testsuite Feature`
+
+Cztery reguły, każda kupiona konkretną pomyłką:
+
+1. **Wysyłaj ładunek w kształcie, który wysyła przeglądarka.** Wartości pól to
+   tekst (`(string) $category->id`), a pole zostawione puste przychodzi jako `''`,
+   nie jest nieobecne. Test wysyłający liczbę całkowitą albo pomijający pole
+   sprawdza ścieżkę, której formularz nigdy nie wykona. Uwaga: globalny
+   `ConvertEmptyStringsToNull` zamienia `''` na `null`, a `prohibits` nie strzela
+   na pustym polu — na tym stoi to, że oba warianty pola kategorii przechodzą.
+2. **Podążaj za przekierowaniem i asercjuj na wyrenderowanej treści.** `302` mówi,
+   że żądanie zostało przyjęte, nie że cokolwiek dotarło na listę, którą czyta
+   rodzina. Asercja na wiersz w bazie jest jeszcze słabsza.
+3. **Gwarancję widoczności dowodzi się dwoma członkami.** Jeden `User` wysyła
+   formularz, drugi osobnym żądaniem czyta stronę. Test z jednym użytkownikiem
+   albo z produktem utworzonym fabryką nie dotyka zapisu i nie dowodzi ryzyka #2.
+4. **Nigdy nie wołaj `assertSessionHasErrors()` przed `followingRedirects()`** —
+   asercja postarza dane flash, więc widok nie ma już czego wyrenderować i test
+   staje się pusty (ustalenie F4 przeglądu S-03). Sprawdzaj albo błąd sesji, albo
+   wyrenderowany komunikat, w osobnych żądaniach.
+
+Do tego: **przycięcia nie da się przetestować na tej warstwie.** Globalny
+`TrimStrings` przycina ładunek, zanim walidacja go zobaczy, więc test wysyłający
+`'  mleko '` dowodzi middleware'u, nie naszej reguły. Przycięcie i sprowadzanie
+odstępów pinuje `NameComparisonTest` (§6.1), gdzie są osiągalne.
 
 ### 6.3 Dodanie testu kontraktu, na którym stanie kolejny slice
 
@@ -188,6 +232,32 @@ odpowiednia faza wdrożenia wyląduje; wcześniej czyta się jako
 (Wypełniane po wylądowaniu każdej fazy: dwie-trzy linie o tym, co faza
 nauczyła — dane kontrolne do ponownego użycia, pułapka narzędzia, decyzja
 warta zapamiętania.)
+
+**Faza 1 — Rdzeń listy zakupów pod kształtem formularza** (2026-09-10,
+`d76ba83`, `b085fd6`):
+
+- **Efektywna reguła równości nazw jest złożeniem dwóch rzeczy**, a tylko jedna
+  z nich jest nasza: globalny `TrimStrings` Laravela (przycina, także unicode)
+  i `NameComparison::normalize()` (obniża wielkość liter, sprowadza odstępy
+  ASCII). Zmiana `bootstrap/app.php` mogłaby po cichu zmienić blokadę
+  duplikatu i nic tego nie pilnuje — świadomie, bo cena pilnowania cudzego
+  frameworka przewyższa ryzyko przy pięciu użytkownikach.
+- **`assertSessionHasErrors()` przed `followingRedirects()` czyni asercję
+  pustą.** Kosztowało to ustalenie w przeglądzie S-03 i wróciło w tej fazie.
+  Jest w §6.2 jako reguła; tu zapisane, żeby nie wróciło po raz trzeci.
+- **`Product::latest()` nie rozstrzyga remisu** (`order by created_at desc`,
+  bez klucza wtórnego). Przy identycznych znacznikach czasu kolejność zależy od
+  silnika, więc asercja na kolejność produktów byłaby chwiejna między SQLite a
+  Postgresem. Sklepy tego problemu nie mają — S-03 uporządkował je po `id`
+  właśnie dlatego. Faza 2 tego planu będzie tego potrzebowała.
+- **Sonda przed planem opłaciła się.** Research wykonał obie ścieżki
+  jednorazowym plikiem testowym i ustalił, że kod działa — dzięki temu faza
+  była o dowodach, nie o naprawach, a trzy pytania o wyrocznię trafiły do
+  właściciela zamiast zostać zgadnięte z implementacji.
+- **Każdy nowy test przeszedł próbę obalenia**: cofnięcie reguły, którą test
+  pinuje, i sprawdzenie, że test upada. Cztery próby, cztery trafienia w
+  zamierzony test. Warto to powtarzać — obie poprzednie fazy projektu znalazły
+  testy przechodzące z niewłaściwego powodu.
 
 ## 7. What We Deliberately Don't Test
 
@@ -214,6 +284,22 @@ którym stoją.
   Właścicielem jest pozycja F-01 w `context/foundation/roadmap.md`. (Źródło:
   rejestr ryzyk w `context/foundation/infrastructure.md`; kalibracja impact ×
   likelihood.)
+- **Odstępy unicode w nazwach** — NBSP, spacja zerowej szerokości i znacznik
+  kolejności bajtów są usuwane przez globalny `TrimStrings` na ścieżce HTTP i
+  przez nikogo poza nią; `NameComparison` ich nie widzi. Wszyscy dzisiejsi
+  pisarze nazw idą przez HTTP albo przez stałe w kodzie, więc rozjazd jest
+  nieosiągalny, a zamykanie go kosztowałoby regułę zależną od unicode'u tam,
+  gdzie właściciel akceptuje najwyżej dwa produkty. Rozważyć ponownie, gdyby
+  powstał pisarz nazw czytający z zewnątrz i omijający HTTP — import,
+  integracja, seeder na danych z pliku. (Źródło: decyzja właściciela przy
+  planowaniu §3 Fazy 1.)
+- **Warianty NFD znaków diakrytycznych** — `bąk` zapisane jako `a` z łączonym
+  ogonkiem nie równa się `bąk` prekomponowanemu, w żadnym z czterech wołających
+  reguły równości. Klawiatura telefonu produkuje NFC, więc ścieżka jest
+  osiągalna praktycznie tylko przez wklejenie; zamknięcie jej wymagałoby
+  rozszerzenia `intl` w produkcji i w teście. Rozważyć ponownie, gdyby rodzina
+  zaczęła wklejać nazwy z zewnętrznych źródeł. (Źródło: decyzja właściciela
+  przy planowaniu §3 Fazy 1.)
 - **Usuwanie produktów i edycja sklepów** — funkcje nie istnieją (roadmapa
   S-05 i S-06). Ich testy należą do ich własnych planów, nie do tego
   wdrożenia; §6 powie im, jak je napisać.
