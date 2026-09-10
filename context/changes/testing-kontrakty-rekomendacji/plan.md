@@ -453,12 +453,12 @@ Odstępstwa od planu podjęte w trakcie implementacji, zapisane tu zgodnie z
 
 #### Automated
 
-- [x] 3.1 Brak `TBD` przy §6.3
-- [x] 3.2 Wiersz 2 tabeli §3 ma `complete`, wiersz 4 wymienia `#1`
-- [x] 3.3 Pełny zestaw dalej zielony
+- [x] 3.1 Brak `TBD` przy §6.3 — 5e23c19
+- [x] 3.2 Wiersz 2 tabeli §3 ma `complete`, wiersz 4 wymienia `#1` — 5e23c19
+- [x] 3.3 Pełny zestaw dalej zielony — 5e23c19
 
 #### Manual
 
-- [x] 3.4 §6.3 czyta się jako instrukcja dla kogoś z zewnątrz zaczynającego S-04
-- [x] 3.5 Uzasadnienie kolejności w §3 wyjaśnia odroczenie, nie tylko je odnotowuje
-- [x] 3.6 Wpis §6.6 trzyma konwencję wpisu Fazy 1
+- [x] 3.4 §6.3 czyta się jako instrukcja dla kogoś z zewnątrz zaczynającego S-04 — 5e23c19
+- [x] 3.5 Uzasadnienie kolejności w §3 wyjaśnia odroczenie, nie tylko je odnotowuje — 5e23c19
+- [x] 3.6 Wpis §6.6 trzyma konwencję wpisu Fazy 1 — 5e23c19
