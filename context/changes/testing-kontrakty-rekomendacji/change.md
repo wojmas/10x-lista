@@ -1,7 +1,7 @@
 ---
 change_id: testing-kontrakty-rekomendacji
 title: Kontrakty rekomendacji przed S-04 — faza 2 wdrożenia testów
-status: implemented
+status: impl_reviewed
 created: 2026-09-10
 updated: 2026-09-10
 archived_at: null
@@ -11,11 +11,15 @@ archived_at: null
 
 Rollout Phase 2 of `context/foundation/test-plan.md`: "Kontrakty rekomendacji przed S-04".
 
-Risks covered: #1 (rekomendacja wskazuje inny sklep, niż wynika z reguły — remis rozstrzygnięty niedeterministycznie albo kategoria policzona dwukrotnie), #3 (kategoria rozdwaja się na wariancie zapisu, więc sklep pokrywa połowę swojego asortymentu i cicho przegrywa rekomendację). Test types planned: integration, unit.
+Risks covered: #3, #1 (część: podwójne policzenie kategorii). Test types: integration.
 
-Risk response intent:
+Co zostało dowiedzione:
 
-- **#1**: dowieść, że przy danej liście i zestawie sklepów remis rozstrzyga się na sklep dodany pierwszy, powtarzalnie i przy identycznych znacznikach czasu, a pokrycie liczy różne kategorie raz.
-- **#3**: dowieść, że kategoria wpisana w dowolnym wariancie zapisu daje jeden rekord przez KAŻDEGO pisarza (formularz, seeder, kod), więc pokrycie sklepu odzwierciedla cały zamierzony zbiór.
+- **#3 — domknięte.** Sklep pokrywa kategorię raz, którąkolwiek z dwóch dróg zostanie wskazana: jedno zgłoszenie formularza z zaznaczonym checkboxem i wpisaną nazwą w innym zapisie daje jedno przypisanie (`AddShopTest`). Inwariant `unique(['shop_id','category_id'])` ma strażnika w zestawie, nie tylko w docblocku migracji (`ShopCategoryAssignmentTest`).
+- **#1 — połowa.** Podwójne policzenie kategorii jest zablokowane i zapinowane (jak wyżej). Rozstrzyganie remisu sklepów **nie zostało dowiedzione** i przeszło do Fazy 4 planu testów — rozbieżność jest odtwarzalna wyłącznie na Postgresie, a zestaw biegnie na SQLite, więc test napisany dziś przechodziłby także po cofnięciu reguły, którą miałby pinować.
+
+Pierwotna intencja fazy zakładała ponadto dowód „jeden rekord przez KAŻDEGO pisarza". Research ustalił, że trzeci pisarz kategorii został skonsolidowany już w S-03 — dziś są dwaj, obaj przez `NameComparison`, obaj otestowani. Dopisywanie tam testów byłoby pracą na luce, której nie ma.
+
+Skutek uboczny: zniknął `ShopListTest::test_shops_are_listed_in_ascending_id_order`, który deklarował pinowanie precedencji S-04, a przechodził po usunięciu `orderBy('id')` na obu silnikach. Do czasu Fazy 4 kolejność sklepów nie jest pilnowana żadnym testem — kontrakt nazwany długiem w docblocku `ShopController::index()`.
 
 Zakres fazy to wyłącznie kontrakty, na których stanie S-04 — sama reguła rekomendacji jeszcze nie istnieje i jej testy należą do planu S-04.

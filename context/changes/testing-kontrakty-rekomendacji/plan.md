@@ -23,7 +23,7 @@ niewłaściwego powodu, i zapisanie odroczenia tak, żeby plan przestał twierdz
 
 ## Current State Analysis
 
-Stan wyjściowy: **53 testy, zielone** na commicie `a570c06` (SQLite `:memory:`,
+Stan wyjściowy: **52 testy, zielone** na commicie `a570c06` (SQLite `:memory:`,
 `phpunit.xml`).
 
 Research nie znalazł błędu w kodzie produkcyjnym. Kod zachowuje się zgodnie z

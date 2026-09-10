@@ -14,7 +14,7 @@ kłamie o kontrakcie kolejności, i przekazuje ten drugi Fazie 4.
 
 ## Starting Point
 
-53 zielone testy na `a570c06`. Kod produkcyjny działa zgodnie z PRD na obu
+52 zielone testy na `a570c06`. Kod produkcyjny działa zgodnie z PRD na obu
 silnikach — research sprawdził sondą. Problem jest w zestawie:
 `ShopListTest:45` deklaruje pinowanie precedencji S-04, a przechodzi po usunięciu
 `orderBy('id')` z kontrolera na SQLite **i** na Postgresie. Inwariant
