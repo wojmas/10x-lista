@@ -351,10 +351,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Automated
 
-- [ ] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [ ] 1.2 Cały zestaw testów przechodzi: `composer test`
-- [ ] 1.3 Trasa `shops.index` jest zarejestrowana: `php artisan route:list`
-- [ ] 1.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 1.1 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
+- [x] 1.2 Cały zestaw testów przechodzi: `composer test`
+- [x] 1.3 Trasa `shops.index` jest zarejestrowana: `php artisan route:list`
+- [x] 1.4 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 

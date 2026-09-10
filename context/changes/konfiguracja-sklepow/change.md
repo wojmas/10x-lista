@@ -1,7 +1,7 @@
 ---
 change_id: konfiguracja-sklepow
 title: Konfiguracja sklepów
-status: planned
+status: implementing
 created: 2026-09-09
 updated: 2026-09-10
 archived_at: null
