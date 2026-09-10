@@ -366,11 +366,11 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Manual
 
-- [ ] 1.5 Odnośnik do sklepów jest widoczny w nagłówku po zalogowaniu i prowadzi na `/shops`
-- [ ] 1.6 Ten sam odnośnik jest dostępny w menu mobilnym przy wąskim oknie
-- [ ] 1.7 Przy pustej bazie `/shops` pokazuje komunikat o braku sklepów
-- [ ] 1.8 Po dodaniu sklepu z kategoriami przez `tinker` pozycja pojawia się na liście razem z kategoriami
-- [ ] 1.9 Lista czyta się poprawnie na szerokości ~375 px, bez poziomego przewijania
+- [x] 1.5 Odnośnik do sklepów jest widoczny w nagłówku po zalogowaniu i prowadzi na `/shops` — 5ce8809
+- [x] 1.6 Ten sam odnośnik jest dostępny w menu mobilnym przy wąskim oknie — 5ce8809
+- [x] 1.7 Przy pustej bazie `/shops` pokazuje komunikat o braku sklepów — 5ce8809
+- [x] 1.8 Po dodaniu sklepu z kategoriami przez `tinker` pozycja pojawia się na liście razem z kategoriami — 5ce8809
+- [x] 1.9 Lista czyta się poprawnie na szerokości ~375 px, bez poziomego przewijania — 5ce8809
 
 ### Phase 2: Wspólne rozstrzyganie kategorii
 
@@ -383,9 +383,9 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Manual
 
-- [ ] 2.5 Dodanie produktu z wybraną kategorią nadal działa i wraca na stronę główną
-- [ ] 2.6 Dodanie produktu z nową nazwą kategorii nadal ją tworzy
-- [ ] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nadal nie tworzy duplikatu
+- [x] 2.5 Dodanie produktu z wybraną kategorią nadal działa i wraca na stronę główną — 8dcbe1e
+- [x] 2.6 Dodanie produktu z nową nazwą kategorii nadal ją tworzy — 8dcbe1e
+- [x] 2.7 Wpisanie nazwy kategorii różniącej się tylko wielkością liter nadal nie tworzy duplikatu — 8dcbe1e
 
 ### Phase 3: Dodawanie sklepu z kategoriami
 
@@ -398,9 +398,9 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Manual
 
-- [ ] 3.5 Dodanie sklepu z zaznaczonymi kategoriami wraca na `/shops`, gdzie sklep jest widoczny z tymi kategoriami
-- [ ] 3.6 Dodanie sklepu z wpisaną nową kategorią tworzy ją i jest ona dostępna przy kolejnym sklepie oraz w formularzu produktu
-- [ ] 3.7 Próba dodania sklepu o nazwie już istniejącej pokazuje polski komunikat, a zaznaczone kategorie zostają w formularzu
-- [ ] 3.8 Próba zapisu bez żadnej kategorii pokazuje polski komunikat
-- [ ] 3.9 Formularz z dziesięcioma polami wyboru czyta się i obsługuje poprawnie na szerokości ~375 px
-- [ ] 3.10 Dwa sklepy dodane jeden po drugim pojawiają się na liście w kolejności dodania
+- [x] 3.5 Dodanie sklepu z zaznaczonymi kategoriami wraca na `/shops`, gdzie sklep jest widoczny z tymi kategoriami — ca0f5ec
+- [x] 3.6 Dodanie sklepu z wpisaną nową kategorią tworzy ją i jest ona dostępna przy kolejnym sklepie oraz w formularzu produktu — ca0f5ec
+- [x] 3.7 Próba dodania sklepu o nazwie już istniejącej pokazuje polski komunikat, a zaznaczone kategorie zostają w formularzu — 0fcd4bf
+- [x] 3.8 Próba zapisu bez żadnej kategorii pokazuje polski komunikat — 0fcd4bf
+- [x] 3.9 Formularz z dziesięcioma polami wyboru czyta się i obsługuje poprawnie na szerokości ~375 px — 0fcd4bf
+- [x] 3.10 Dwa sklepy dodane jeden po drugim pojawiają się na liście w kolejności dodania — ca0f5ec
