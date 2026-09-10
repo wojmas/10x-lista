@@ -345,6 +345,7 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 ## Implementation Deviations
 
+- **Faza 3 — wymóg „co najmniej jedna kategoria" wisi tylko na `category_ids`.** Plan opisywał regułę dopuszczającą pustą tablicę wtedy i tylko wtedy, gdy wpisano nową kategorię. Symetryczne `required_without` na obu polach dawało ten sam komunikat dwa razy przy pustym formularzu, więc reguła została na `category_ids` (`required_without:new_category`), a `new_category` jest zwykłym polem opcjonalnym. Skutek walidacyjny identyczny, komunikat jeden.
 - **Faza 2 — `ProductController::resolveCategory()` zniknął zamiast zostać.** Kontrakt zmiany nr 2 mówił, że rozgałęzienie „wybrana kategoria kontra wpisana nazwa" zostaje w kontrolerze, ale kryterium sukcesu 2.3 wymaga, żeby metoda `resolveCategory` już nie istniała. Rozgałęzienie zostało w kontrolerze — wciągnięte wprost do `store()` (trzy linie), więc oba warunki są spełnione naraz. Zachowanie bez zmian: `AddProductTest` przechodzi bez modyfikacji.
 
 ## Progress
@@ -372,10 +373,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Automated
 
-- [x] 2.1 Cały zestaw testów przechodzi: `composer test`
-- [x] 2.2 Testy formularza produktu przechodzą bez zmian w plikach testowych: `git diff --stat tests/Feature/AddProductTest.php` jest pusty
-- [x] 2.3 `ProductController` nie zawiera już metod `resolveCategory` ani `findCategoryNamed`
-- [x] 2.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 2.1 Cały zestaw testów przechodzi: `composer test` — 8dcbe1e
+- [x] 2.2 Testy formularza produktu przechodzą bez zmian w plikach testowych: `git diff --stat tests/Feature/AddProductTest.php` jest pusty — 8dcbe1e
+- [x] 2.3 `ProductController` nie zawiera już metod `resolveCategory` ani `findCategoryNamed` — 8dcbe1e
+- [x] 2.4 Formatowanie zgodne: `php artisan pint --test` — 8dcbe1e
 
 #### Manual
 
@@ -387,10 +388,10 @@ Uwaga o danych produkcyjnych: po wdrożeniu S-02 na produkcji mogą już istnie�
 
 #### Automated
 
-- [ ] 3.1 Cały zestaw testów przechodzi: `composer test`
-- [ ] 3.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
-- [ ] 3.3 Trasy `shops.create` i `shops.store` są zarejestrowane: `php artisan route:list`
-- [ ] 3.4 Formatowanie zgodne: `php artisan pint --test`
+- [x] 3.1 Cały zestaw testów przechodzi: `composer test`
+- [x] 3.2 Migracje przechodzą na czystej bazie: `php artisan migrate:fresh --seed`
+- [x] 3.3 Trasy `shops.create` i `shops.store` są zarejestrowane: `php artisan route:list`
+- [x] 3.4 Formatowanie zgodne: `php artisan pint --test`
 
 #### Manual
 

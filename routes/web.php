@@ -13,6 +13,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shops.index');
+    Route::get('/shops/create', [ShopController::class, 'create'])->name('shops.create');
+    Route::post('/shops', [ShopController::class, 'store'])->name('shops.store');
 });
 
 require __DIR__.'/auth.php';
