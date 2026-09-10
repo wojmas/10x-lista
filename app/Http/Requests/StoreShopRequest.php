@@ -25,6 +25,21 @@ class StoreShopRequest extends FormRequest
      * adding a shop and assigning categories as one act, so the rules do too:
      * the checkbox array may be empty only when a new category was typed in.
      *
+     * The absence of a "prohibits:new_category" rule is a decision, not an
+     * oversight — StoreProductRequest carries exactly that rule, because a
+     * product has one category and naming it twice can only be a mistake. A
+     * shop has many, so ticking several and typing in one more is ordinary use
+     * and must keep working.
+     *
+     * The price of that freedom: both routes can name the same category in
+     * different spellings, so one submission can point at it twice. Nothing
+     * here rejects that. What keeps the coverage honest is downstream —
+     * CategoryResolver returns the same id for both spellings, sync() in
+     * ShopController::store() collapses the repeat, and the unique index on
+     * (shop_id, category_id) is the backstop. AddShopTest pins the collapse;
+     * ShopCategoryAssignmentTest pins the backstop. Add "prohibits" here and
+     * both of those stop describing anything a member can actually do.
+     *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array

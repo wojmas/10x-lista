@@ -81,6 +81,46 @@ class AddShopTest extends TestCase
     }
 
     /**
+     * The shop form deliberately allows ticking a category and typing one in
+     * within the same submission — a shop offers many categories, so picking
+     * three and adding a fourth is ordinary use (StoreShopRequest::rules()
+     * explains why no "prohibits" rule stands there).
+     *
+     * That freedom is what makes this collision reachable: both routes can name
+     * the same category in different spellings. The shop must then cover it
+     * once. Twice, and S-04 counts it twice and recommends the wrong shop with
+     * nothing on screen to explain it.
+     *
+     * Not the same case as the typed-in-only test above: that one proves the
+     * resolver reuses a category, this one proves the *assignment* collapses.
+     */
+    public function test_a_category_ticked_and_typed_in_at_once_is_covered_only_once(): void
+    {
+        $dairy = Category::factory()->create(['name' => 'Nabiał']);
+
+        $this->actingAs(User::factory()->create());
+
+        $response = $this->post('/shops', [
+            'name' => 'Biedronka',
+            'category_ids' => [(string) $dairy->id],
+            'new_category' => 'NABIAŁ',
+        ]);
+
+        $response->assertRedirect(route('shops.index', absolute: false));
+
+        $rendered = $this->followRedirects($response)
+            ->assertOk()
+            ->assertSee('Biedronka');
+
+        // Counted rather than merely seen: the list renders one chip per
+        // assignment, so a doubled assignment shows up here as two chips.
+        $this->assertSame(1, substr_count($rendered->getContent(), 'Nabiał'));
+
+        $this->assertSame(1, Category::query()->count());
+        $this->assertSame([$dairy->id], Shop::query()->firstOrFail()->categories->pluck('id')->all());
+    }
+
+    /**
      * Two entries named "Biedronka" would split that shop's categories between
      * them, so each covers half of what the real shop offers and both lose the
      * S-04 recommendation to a third shop — with nothing reported as an error.

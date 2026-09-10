@@ -6,7 +6,7 @@
 >
 > Odświeżenie: uruchom `/10x-test-plan --refresh`, gdy plan się zestarzeje (patrz §8).
 >
-> Last updated: 2026-09-10
+> Last updated: 2026-09-10 (§2 zaktualizowane backportem z researchu Fazy 2)
 
 ## 1. Strategy
 
@@ -45,7 +45,7 @@ jako „miejsca, gdzie mieszka awaria" (to zadanie researchu, patrz §1 zasada 3
 |---|---|---|---|---|
 | 1 | Rekomendacja wskazuje inny sklep, niż wynika z reguły — remis rozstrzygnięty niedeterministycznie albo kategoria policzona dwukrotnie; rodzina jedzie nie tam i nic nie zgłasza błędu | High | High | PRD FR-007, §Business Logic (remis → sklep dodany pierwszy); roadmapa S-04 = następny slice; `context/archive/2026-09-09-konfiguracja-sklepow/plan.md` §Key Discoveries |
 | 2 | Członek dodaje produkt, zapis pozornie przechodzi, ale osoba jadąca do sklepu go nie widzi i kupuje bez niego | High | Medium | Wywiad Q1; PRD §Guardrails („dane nie mogą się gubić"); PRD US-01 kryteria akceptacji; hot-spot `app/Http/Controllers` — 27 commitów/30 dni |
-| 3 | Kategoria rozdwaja się na wariancie zapisu, więc sklep pokrywa połowę swojego asortymentu i cicho przegrywa rekomendację | High | Medium | `context/archive/2026-09-09-wspolna-lista-produktow/reviews/impl-review.md` (seeder dokładał wariant różniący się wielkością liter); plan S-03 §Key Discoveries; wywiad Q3 (obszar sąsiedni) |
+| 3 | Kategoria rozdwaja się na wariancie zapisu, więc sklep pokrywa połowę swojego asortymentu i cicho przegrywa rekomendację | High | Low | `context/archive/2026-09-09-wspolna-lista-produktow/reviews/impl-review.md` (seeder dokładał wariant różniący się wielkością liter); plan S-03 §Key Discoveries; wywiad Q3 (obszar sąsiedni); research Fazy 2 — przeliczone po konsolidacji pisarzy |
 | 4 | Niezalogowany dociera do listy zakupów rodziny, bo nowa trasa powstała poza grupą uwierzytelniającą | High | Medium | PRD §Access Control; PRD §Guardrails (prywatność); hot-spot `routes/web.php` — 6 commitów/30 dni, każdy slice tam dokłada |
 | 5 | Blokada duplikatu produktu przepuszcza dwa te same produkty albo odrzuca produkt, który duplikatem nie jest | Medium | High | Wywiad Q3; przegląd implementacji S-02; hot-spot `app/Http/Requests` — 6 commitów/30 dni |
 | 6 | Zachowanie różniące się między silnikiem testowym a produkcyjnym przechodzi na produkcję przy zielonym zestawie testów | High | Low | `context/archive/2026-09-09-konfiguracja-sklepow/reviews/impl-review.md` ustalenie F1 (awaria odtworzona wykonaniem); wywiad Q4 ocenia jako nieistotne |
@@ -57,6 +57,15 @@ surowego SQL; wyciek sekretów — należy do rejestru ryzyk w
 `context/foundation/infrastructure.md`, nie do testów; nadużycie zasobów —
 pięciu zaufanych użytkowników, brak kosztownych operacji.
 
+Ryzyko 3 zostało przeliczone w researchu Fazy 2 (2026-09-10) z Medium na Low i
+zostaje w mapie na swoim miejscu, żeby nie przenumerować odwołań. Powód: trzeci
+pisarz kategorii, na którym stało uzasadnienie, już nie istnieje — zapisy
+skonsolidowały się w S-03 do jednej reguły równości, przez którą przechodzą obaj
+dzisiejsi pisarze produkcyjni, i obaj mają test. Ryzyko zostaje jako ochrona
+przed regresją tej konsolidacji, nie jako otwarta luka; scenariusz wymaga
+dopisania nowego pisarza, który regułę ominie. Kolejność wierszy nie odpowiada
+już ściśle iloczynowi impact × likelihood — porządkowanie należy do `--refresh`.
+
 Ryzyko 6 ma Impact High × Likelihood Low i zwykle taki układ należy do
 obserwowalności, nie do testu. Zostaje w mapie mimo oceny właściciela („nie
 martwi mnie"), bo jako jedyny wiersz w tej mapie opiera się na awarii
@@ -66,9 +75,9 @@ odtworzonej wykonaniem, a nie na przewidywaniu. Trafia do ostatniej fazy.
 
 | Ryzyko | Co dowodzi ochrony | Co zakwestionować | Kontekst do ugruntowania przez `/10x-research` | Najtańsza warstwa | Antywzorzec |
 |---|---|---|---|---|---|
-| #1 | Przy danej liście i zestawie sklepów wskazany jest ten sklep, który wynika z reguły; remis rozstrzyga się na pierwszy dodany, powtarzalnie i przy identycznych znacznikach czasu | „posortowane znaczy deterministyczne"; „liczba dopasowań równa się liczbie różnych kategorii" | Jak uporządkowane są sklepy, czy unikalność przypisania trzyma, jak liczone jest pokrycie, co przy pustej liście i przy zerowym pokryciu | jednostkowa lub integracyjna na regule, z danymi kontrolnymi — nie e2e | Dane kontrolne, w których każdy sklep ma inny wynik, więc remis nigdy nie zostaje wykonany |
+| #1 | Przy danej liście i zestawie sklepów wskazany jest ten sklep, który wynika z reguły; remis rozstrzyga się na pierwszy dodany, powtarzalnie i przy identycznych znacznikach czasu | „posortowane znaczy deterministyczne" — research Fazy 2 potwierdził i wzmocnił: brak jawnej klauzuli porządkującej daje wynik zależny od silnika, od tego czy zaszła aktualizacja indeksowanej kolumny, i od tego które kolumny wybrano; „liczba dopasowań równa się liczbie różnych kategorii" — po stronie sklepu pilnuje tego unikalność przypisania, po stronie produktów należy do S-04 | Jak uporządkowane są sklepy, czy unikalność przypisania trzyma, jak liczone jest pokrycie, co przy pustej liście i przy zerowym pokryciu | integracyjna na zapytaniu sklepów, z danymi kontrolnymi zawierającymi realny remis — **ale połowa „remis" nie może upaść na sterowniku dzisiejszego zestawu**; dowód wymaga przebiegu na silniku produkcyjnym, co wiąże to ryzyko z #6 i Fazą 4 | Dane kontrolne, w których każdy sklep ma inny wynik, więc remis nigdy nie zostaje wykonany. Antywzorzec ostrzejszy: dane kontrolne z poprawnym remisem, uruchomione na silniku, na którym rozbieżność jest niewidoczna — test przechodzi po cofnięciu reguły, którą rzekomo pinuje |
 | #2 | Produkt zapisany przez jednego członka jest czytelny w sesji innego, po przekierowaniu i przy świeżym żądaniu | „302 znaczy, że się zapisało"; „wiersz jest w bazie, więc użytkownik go widzi" | Gdzie następuje odczyt listy i czy jest zawężony, granice transakcji przy zapisie, co realnie odczytuje przekierowanie | integracyjna po HTTP, ładunek w kształcie formularza, z podążeniem za przekierowaniem | Asercja na wiersz w bazie zamiast na wyrenderowaną listę; wysyłanie typów, których przeglądarka nigdy nie wyśle |
-| #3 | Kategoria wpisana w dowolnym wariancie zapisu daje jeden rekord, a pokrycie sklepu odzwierciedla cały zbiór, który członek zamierzył | Że formularz jest jedynym pisarzem — trzecim pisarzem był seeder i to on się pomylił | Wszystkie ścieżki zapisu do zbioru kategorii, obsługa wyścigu przy równoległym dopisaniu, granice transakcji | integracyjna przez każdego pisarza | Test wyłącznie ścieżki formularza z założeniem, że pozostali pisarze się zgadzają |
+| #3 | Kategoria wpisana w dowolnym wariancie zapisu daje jeden rekord, a pokrycie sklepu odzwierciedla cały zbiór, który członek zamierził | Że formularz jest jedynym pisarzem — trzecim pisarzem był seeder i to on się pomylił. Research Fazy 2: zarzut był trafny w S-02 i **został już zamknięty konsolidacją** — dziś pisarzy produkcyjnych jest dwóch, obaj przez jedną regułę równości, obaj otestowani. Nowe pytanie do zakwestionowania: czy pokrycie sklepu odzwierciedla zamiar, gdy jedno zgłoszenie wskaże tę samą kategorię dwiema drogami naraz | Wszystkie ścieżki zapisu do zbioru kategorii, obsługa wyścigu przy równoległym dopisaniu, granice transakcji | integracyjna przez każdego pisarza — **istnieje**; niepokryta zostaje wyłącznie konsekwencja po stronie pokrycia sklepu przy kolizji dwóch dróg w jednym zgłoszeniu | Test wyłącznie ścieżki formularza z założeniem, że pozostali pisarze się zgadzają. Drugi antywzorzec: dopisywanie testów do luki, która jest już zamknięta, zamiast do jedynej pozostałej |
 | #4 | Każda trasa czytająca lub zapisująca dane rodziny przekierowuje niezalogowanego na logowanie — także ta dodana jutro | „jest w grupie uwierzytelniającej, bo ją tam wstawiłem" — gwarancja ma wynikać z asercji nad tabelą tras, nie z pamięci autora | Rejestracja tras, grupy pośredniczące, które trasy są celowo publiczne | jedna integracyjna, przemiatająca zarejestrowane trasy | Jeden test gościa na plik funkcji — milcząco pomija następną dodaną trasę |
 | #5 | Dwie nazwy, które rodzina uważa za tę samą rzecz, są blokowane; dwie nazwy, które uważa za różne, przechodzą obie | Że normalizacja to to samo co poprawność — polskie znaki diakrytyczne są znaczące z decyzji podjętej w S-02 | Jedyna definicja równości nazw i komplet jej wołających; czy porównanie odbywa się w aplikacji czy w bazie | jednostkowa na regule równości plus jedna integracyjna na odrzuceniu z formularza | Problem wyroczni: pary oczekiwań wyprowadzone z implementacji normalizacji zamiast z tego, co rodzina rozumie przez „ten sam produkt" |
 | #6 | Zachowanie rozjeżdżające się między silnikami jest przynajmniej raz wykonane na silniku produkcyjnym | „zielony zestaw znaczy bezpiecznie", gdy sterownik zestawu nie jest sterownikiem produkcji | Które zachowania się rozjeżdżają: semantyka przerwania transakcji, porównywanie tekstu, uporządkowanie wyników | drugi przebieg istniejącego zestawu na innym sterowniku | Przepisywanie zestawu pod drugi silnik — tanim ruchem jest drugi przebieg, nie drugi zestaw |
@@ -83,7 +92,7 @@ na dysku. Słownik statusów pozostaje po angielsku, bo czyta go parser.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
 | 1 | Rdzeń listy zakupów pod kształtem formularza | Dowieść, że produkt dodany przez jednego członka jest widoczny dla drugiego, a blokada duplikatu trafia w obie strony | #2, #5 | integration, unit | complete | `context/changes/testing-lista-i-duplikaty/` |
-| 2 | Kontrakty rekomendacji przed S-04 | Dowieść, że kolejność rozstrzygania remisu i tożsamość przypisania kategorii trzymają, zanim powstanie reguła, która na nich stanie | #1, #3 | integration, unit | not started | — |
+| 2 | Kontrakty rekomendacji przed S-04 | Dowieść, że kolejność rozstrzygania remisu i tożsamość przypisania kategorii trzymają, zanim powstanie reguła, która na nich stanie | #1, #3 | integration, unit | researched | `context/changes/testing-kontrakty-rekomendacji/` |
 | 3 | Bramka dostępu na poziomie tabeli tras | Dowieść, że żadna trasa z danymi rodziny nie przecieka do niezalogowanego — także dodana w przyszłości | #4 | integration | not started | — |
 | 4 | Przebieg zestawu na silniku produkcyjnym | Dowieść, że zestaw daje się wykonać na Postgresie, nie tylko na SQLite | #6 | konfiguracja przebiegu | not started | — |
 
@@ -249,7 +258,10 @@ warta zapamiętania.)
   bez klucza wtórnego). Przy identycznych znacznikach czasu kolejność zależy od
   silnika, więc asercja na kolejność produktów byłaby chwiejna między SQLite a
   Postgresem. Sklepy tego problemu nie mają — S-03 uporządkował je po `id`
-  właśnie dlatego. Faza 2 tego planu będzie tego potrzebowała.
+  właśnie dlatego. **Korekta z researchu Fazy 2 (2026-09-10)**: to notatka o
+  wyglądzie listy, nie trop dla ryzyka #1. Rekomendacja liczy różne kategorie z
+  listy, a nie kolejność produktów, więc remis produktów jej nie dotyczy. Trop
+  dla ryzyka #1 prowadzi wyłącznie do uporządkowania sklepów.
 - **Sonda przed planem opłaciła się.** Research wykonał obie ścieżki
   jednorazowym plikiem testowym i ustalił, że kod działa — dzięki temu faza
   była o dowodach, nie o naprawach, a trzy pytania o wyrocznię trafiły do
