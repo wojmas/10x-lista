@@ -34,7 +34,16 @@
                             @endforeach
                         </div>
 
-                        <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
+                        {{-- A bad id is keyed as "category_ids.0", which get('category_ids')
+                             does not match, so both keys have to be read or the form comes
+                             back with no error shown at all. --}}
+                        @php
+                            $categoryErrors = array_merge(
+                                $errors->get('category_ids'),
+                                Arr::flatten($errors->get('category_ids.*')),
+                            );
+                        @endphp
+                        <x-input-error :messages="$categoryErrors" class="mt-2" />
                     </div>
 
                     <div class="mt-4">

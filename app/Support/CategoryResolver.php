@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Category;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 /**
@@ -32,8 +33,15 @@ class CategoryResolver
         // new category at the same moment can both get past the lookup. The
         // second insert then trips the unique index; rather than serving a 500
         // and losing the entry, take the category the other request just made.
+        //
+        // The insert gets its own nested transaction so that recovery works when
+        // a caller has already opened one — ShopController::store() does. On
+        // Postgres a failed statement aborts the whole transaction, and the
+        // recovery lookup below would throw instead of returning; nesting makes
+        // Laravel emit a SAVEPOINT, so only the failed insert is rolled back.
+        // SQLite has no such behaviour, which is why no test can catch this.
         try {
-            return Category::create(['name' => $name]);
+            return DB::transaction(fn (): Category => Category::create(['name' => $name]));
         } catch (UniqueConstraintViolationException) {
             return self::findNamed($name) ?? throw new RuntimeException(
                 "Nie udało się utworzyć ani odnaleźć kategorii [{$name}]."
@@ -44,10 +52,14 @@ class CategoryResolver
     /**
      * Find an existing category whose name means the same thing, if any.
      *
-     * Public because the shop form needs to ask this question on its own, to
-     * tell an added-but-already-known category from a genuinely new one.
+     * The names are read into PHP rather than compared in SQL, the same choice
+     * StoreProductRequest documents: LOWER() is ASCII-only in the SQLite used by
+     * tests but locale-aware in production Postgres, so a database-side match
+     * would behave differently in the two environments. At this product's scale
+     * (a handful of categories) reading them is free; if the list ever grows
+     * into the thousands, this is the line to revisit.
      */
-    public static function findNamed(string $name): ?Category
+    private static function findNamed(string $name): ?Category
     {
         return Category::query()
             ->get()

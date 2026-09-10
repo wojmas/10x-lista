@@ -162,7 +162,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 | F-01       | `trwalosc-danych-produkcyjnych` | Potwierdzić i opisać ścieżkę odtworzenia produkcyjnej bazy      | yes                   | Może biec równolegle do całego strumienia A |
 | S-01       | `logowanie-i-prywatny-dostep`   | Logowanie loginem i hasłem, odcięcie niezalogowanych            | done                  | Zarchiwizowane 2026-09-09                |
 | S-02       | `wspolna-lista-produktow`       | Dodawanie produktów i wspólna lista na stronie głównej          | done                  | Zarchiwizowane 2026-09-09                |
-| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | planning              | Plan gotowy; `/10x-implement konfiguracja-sklepow phase 1` |
+| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | in-progress           | Zaimplementowane i po przeglądzie; czeka na `/10x-archive` |
 | S-04       | `rekomendacja-sklepu`           | Rekomendacja sklepu przeliczana po każdej zmianie listy         | no                    | Gwiazda przewodnia; czeka na S-03        |
 | S-05       | `usuwanie-kupionych-produktow`  | Usuwanie kupionych produktów i przeliczenie rekomendacji        | no                    | Czeka na S-04                            |
 | S-06       | `edycja-i-usuwanie-sklepow`     | Edycja kategorii sklepu i usuwanie sklepu                       | no                    | Czeka na S-03; brak pokrycia w FR — patrz Otwarte pytanie 3 |

@@ -58,6 +58,9 @@ class StoreShopRequest extends FormRequest
         return [
             'name' => 'nazwa sklepu',
             'category_ids' => 'kategorie',
+            // Without the wildcard entry a per-element failure renders the raw
+            // key ("category_ids.0") to a Polish-speaking member.
+            'category_ids.*' => 'kategoria',
             'new_category' => 'nowa kategoria',
         ];
     }
@@ -73,6 +76,13 @@ class StoreShopRequest extends FormRequest
      * Names are read into PHP rather than compared in SQL, for the same reason
      * as with products: LOWER() is ASCII-only in the SQLite used by tests but
      * locale-aware in production Postgres.
+     *
+     * The check is not atomic, so two members submitting "Biedronka" at the same
+     * moment both pass it and the second trips the unique index on shops.name as
+     * an uncaught exception — a 500 where a validation message would be kinder.
+     * Accepted at this scale: the data stays correct because the index is the
+     * real guarantee, and two people configuring the same shop in the same second
+     * is not a thing a five-person family does.
      */
     private function notAlreadyConfigured(): Closure
     {
