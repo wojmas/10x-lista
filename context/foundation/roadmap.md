@@ -34,7 +34,7 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | F-01 | `trwalosc-danych-produkcyjnych` | (foundation) potwierdzona ścieżka odtworzenia produkcyjnej bazy danych | —             | §Guardrails, §NFR (24/7)     | ready    |
 | S-01 | `logowanie-i-prywatny-dostep`   | zalogować się i zobaczyć stronę główną niedostępną dla niezalogowanych | —             | FR-001, US-01, §Access Control | done     |
 | S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | done     |
-| S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | in-progress |
+| S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | done     |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | proposed |
 | S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | proposed |
 | S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | proposed |
@@ -114,7 +114,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** kolejność dodawania sklepów jest znacząca — §Business Logic rozstrzyga remis na korzyść sklepu dodanego jako pierwszy, więc ta kolejność musi być trwale zapisana, a nie wynikać z przypadkowego sortowania w zapytaniu. Sekwencjonowane po S-02, bo kategorie przypisywane sklepom muszą być tym samym zbiorem, którym opisywane są produkty.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-04: Rekomendacja sklepu na stronie głównej
 
@@ -162,7 +162,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 | F-01       | `trwalosc-danych-produkcyjnych` | Potwierdzić i opisać ścieżkę odtworzenia produkcyjnej bazy      | yes                   | Może biec równolegle do całego strumienia A |
 | S-01       | `logowanie-i-prywatny-dostep`   | Logowanie loginem i hasłem, odcięcie niezalogowanych            | done                  | Zarchiwizowane 2026-09-09                |
 | S-02       | `wspolna-lista-produktow`       | Dodawanie produktów i wspólna lista na stronie głównej          | done                  | Zarchiwizowane 2026-09-09                |
-| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | in-progress           | Zaimplementowane i po przeglądzie; czeka na `/10x-archive` |
+| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | done                  | Zarchiwizowane 2026-09-10                |
 | S-04       | `rekomendacja-sklepu`           | Rekomendacja sklepu przeliczana po każdej zmianie listy         | no                    | Gwiazda przewodnia; czeka na S-03        |
 | S-05       | `usuwanie-kupionych-produktow`  | Usuwanie kupionych produktów i przeliczenie rekomendacji        | no                    | Czeka na S-04                            |
 | S-06       | `edycja-i-usuwanie-sklepow`     | Edycja kategorii sklepu i usuwanie sklepu                       | no                    | Czeka na S-03; brak pokrycia w FR — patrz Otwarte pytanie 3 |
@@ -188,3 +188,4 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 
 - **S-01: użytkownik loguje się loginem i hasłem, a niezalogowany zostaje przekierowany na stronę logowania — strona główna przestaje być publiczna.** — Archived 2026-09-09 → `context/archive/2026-08-31-logowanie-i-prywatny-dostep/`. Lesson: —.
 - **S-02: użytkownik dodaje produkt z nazwą i kategorią oraz widzi na stronie głównej wspólną listę produktów całej rodziny.** — Archived 2026-09-09 → `context/archive/2026-09-09-wspolna-lista-produktow/`. Lesson: —.
+- **S-03: użytkownik dodaje sklep i przypisuje mu kategorie produktów w osobnym widoku.** — Archived 2026-09-10 → `context/archive/2026-09-09-konfiguracja-sklepow/`. Lesson: —.

@@ -1,10 +1,10 @@
 ---
 change_id: konfiguracja-sklepow
 title: Konfiguracja sklepów
-status: impl_reviewed
+status: archived
 created: 2026-09-09
 updated: 2026-09-10
-archived_at: null
+archived_at: 2026-09-10T10:25:36Z
 ---
 
 ## Notes
