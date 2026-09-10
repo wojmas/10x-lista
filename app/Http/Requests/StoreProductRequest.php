@@ -50,6 +50,12 @@ class StoreProductRequest extends FormRequest
      * Rejects a product whose name is already on the list, comparing through
      * NameComparison so "Mleko", "mleko" and " mleko " are one name.
      *
+     * The check is deliberately list-wide rather than scoped to the chosen
+     * category: the family keeps one shopping list and buys milk once, so "Mleko"
+     * under Napoje is the same errand as "Mleko" under Nabiał. Scoping it per
+     * category would put two identical-looking rows on a flat list with nothing
+     * on screen to tell them apart.
+     *
      * The check loads product names and compares them in PHP rather than in
      * SQL: LOWER() is ASCII-only in the SQLite used by tests but locale-aware
      * in production Postgres, so a database-side comparison would behave

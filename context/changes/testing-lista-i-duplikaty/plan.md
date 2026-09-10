@@ -435,30 +435,30 @@ produkcji) zostają, ale kolejny duplikat zostanie od teraz odrzucony.
 
 #### Automated
 
-- [x] 1.1 Zestaw jednostkowy zielony
-- [x] 1.2 Pełny zestaw dalej zielony, bez regresji na kategoriach i sklepach
-- [x] 1.3 Formatowanie (Pint)
+- [x] 1.1 Zestaw jednostkowy zielony — d76ba83
+- [x] 1.2 Pełny zestaw dalej zielony, bez regresji na kategoriach i sklepach — d76ba83
+- [x] 1.3 Formatowanie (Pint) — d76ba83
 
 #### Manual
 
-- [x] 1.4 Próba obalenia: cofnięcie `preg_replace` wywala tylko nowy przypadek
-- [x] 1.5 Docblock `NameComparison` czyta się jako odpowiedź o rodzinie, nie o implementacji
+- [x] 1.4 Próba obalenia: cofnięcie `preg_replace` wywala tylko nowy przypadek — d76ba83
+- [x] 1.5 Docblock `NameComparison` czyta się jako odpowiedź o rodzinie, nie o implementacji — d76ba83
 
 ### Phase 2: Ścieżka formularza po HTTP
 
 #### Automated
 
-- [ ] 2.1 Zestaw funkcjonalny zielony
-- [ ] 2.2 Pełny zestaw zielony i liczniejszy niż 49 testów
-- [ ] 2.3 Formatowanie (Pint)
-- [ ] 2.4 Migracje na czystej bazie
+- [x] 2.1 Zestaw funkcjonalny zielony
+- [x] 2.2 Pełny zestaw zielony i liczniejszy niż 49 testów
+- [x] 2.3 Formatowanie (Pint)
+- [x] 2.4 Migracje na czystej bazie
 
 #### Manual
 
-- [ ] 2.5 Próba obalenia szwu ryzyka #2 (zawężenie zapytania w `index()`)
-- [ ] 2.6 Próba obalenia komunikatu duplikatu (zmiana tekstu)
-- [ ] 2.7 Próba obalenia zakresu blokady (zawężenie do `category_id`)
-- [ ] 2.8 Dodanie produktu i duplikatu w przeglądarce — komunikat po polsku
+- [x] 2.5 Próba obalenia szwu ryzyka #2 (zawężenie zapytania w `index()`)
+- [x] 2.6 Próba obalenia komunikatu duplikatu (zmiana tekstu)
+- [x] 2.7 Próba obalenia zakresu blokady (zawężenie do `category_id`)
+- [x] 2.8 Dodanie produktu i duplikatu w przeglądarce — komunikat po polsku
 
 ### Phase 3: Domknięcie planu testów
 

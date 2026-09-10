@@ -25,12 +25,15 @@ class ProductListTest extends TestCase
     }
 
     /**
-     * The PRD guardrail says an added product must be visible to every logged-in
-     * family member, so the list is not scoped to whoever is signed in. Nothing
-     * ties a product to a user, so seeing it from a freshly created account is
-     * the strongest available proof of that.
+     * The read side of the visibility guardrail: the query is not scoped to
+     * whoever is signed in, so a product nobody in this session created still
+     * shows up.
+     *
+     * This covers the query only. The full path — one member submits the form,
+     * another loads the page — is pinned in AddProductTest, which is the test
+     * that actually exercises the write.
      */
-    public function test_products_are_visible_to_every_family_member(): void
+    public function test_the_list_is_not_scoped_to_the_signed_in_member(): void
     {
         Product::factory()->create(['name' => 'Chleb']);
 
