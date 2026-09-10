@@ -19,6 +19,18 @@ class NameComparisonTest extends TestCase
     }
 
     /**
+     * A member who hits the space bar twice has not thought of a second product.
+     * The rule has to agree with that, or the list grows two entries that read
+     * identically and nobody can tell apart.
+     */
+    public function test_a_doubled_space_inside_a_name_is_the_same_product(): void
+    {
+        $this->assertTrue(NameComparison::matches('Mleko  2%', 'Mleko 2%'));
+        $this->assertTrue(NameComparison::matches("Mleko\t2%", 'mleko 2%'));
+        $this->assertTrue(NameComparison::matches("Warzywa i\n owoce", 'Warzywa i owoce'));
+    }
+
+    /**
      * Polish diacritics are significant by decision — dropping them would make
      * "łoś" and "los" the same name.
      */
