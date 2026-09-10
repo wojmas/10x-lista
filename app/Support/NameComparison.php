@@ -33,10 +33,14 @@ class NameComparison
      * whitespace bytes cannot occur inside a multibyte UTF-8 sequence, so byte-wise
      * matching is safe. With /u, preg_replace returns null on malformed UTF-8 and
      * an ugly name would become a TypeError instead of an ugly name.
+     *
+     * The ?? fallback covers the remaining theoretical null: this pattern cannot
+     * exhaust the backtrack limit, but comparing an uncollapsed name is a better
+     * failure than comparing nothing.
      */
     public static function normalize(string $name): string
     {
-        return mb_strtolower(trim(preg_replace('/\s+/', ' ', $name)));
+        return mb_strtolower(trim(preg_replace('/\s+/', ' ', $name) ?? $name));
     }
 
     public static function matches(string $a, string $b): bool
