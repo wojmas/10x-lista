@@ -3,7 +3,7 @@ project: "Lista Zakupów"
 version: 1
 status: draft
 created: 2026-08-31
-updated: 2026-09-09
+updated: 2026-09-10
 prd_version: 1
 main_goal: quality
 top_blocker: none
@@ -34,9 +34,10 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | F-01 | `trwalosc-danych-produkcyjnych` | (foundation) potwierdzona ścieżka odtworzenia produkcyjnej bazy danych | —             | §Guardrails, §NFR (24/7)     | ready    |
 | S-01 | `logowanie-i-prywatny-dostep`   | zalogować się i zobaczyć stronę główną niedostępną dla niezalogowanych | —             | FR-001, US-01, §Access Control | done     |
 | S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | done     |
-| S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | proposed |
+| S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | planning |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | proposed |
 | S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | proposed |
+| S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | proposed |
 
 ## Streams
 
@@ -46,6 +47,7 @@ Pomoc nawigacyjna — grupuje pozycje dzielące ten sam łańcuch zależności. 
 | ------ | ---------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | A      | Cykl zakupowy    | `S-01` → `S-02` → `S-03` → `S-04` → `S-05`       | Zawiera gwiazdę przewodnią (`S-04`), ustawioną tak wcześnie, jak pozwalają jej zależności.                  |
 | B      | Trwałość danych  | `F-01`                                           | Bez zależności, biegnie równolegle do całego strumienia A. Wymuszony celem „jakość i solidność".            |
+| C      | Utrzymanie danych | `S-06`                                          | Odgałęzienie od `S-03`; nie blokuje gwiazdy przewodniej, więc może poczekać za całym strumieniem A.         |
 
 ## Baseline
 
@@ -112,7 +114,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** kolejność dodawania sklepów jest znacząca — §Business Logic rozstrzyga remis na korzyść sklepu dodanego jako pierwszy, więc ta kolejność musi być trwale zapisana, a nie wynikać z przypadkowego sortowania w zapytaniu. Sekwencjonowane po S-02, bo kategorie przypisywane sklepom muszą być tym samym zbiorem, którym opisywane są produkty.
-- **Status:** proposed
+- **Status:** planning
 
 ### S-04: Rekomendacja sklepu na stronie głównej
 
@@ -139,21 +141,37 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Risk:** domyka pełen cykl zakupowy z §Success Criteria i jest jedynym miejscem, gdzie kryterium akceptacji „usunięty produkt wpływa na przeliczenie rekomendacji" da się zweryfikować — dlatego sekwencjonowane po S-04, a nie razem z dodawaniem produktów. Usunięcie jest trwałe (§Non-Goals: brak historii zakupów), więc pomyłkowe kliknięcie oznacza bezpowrotną utratę pozycji.
 - **Status:** proposed
 
+### S-06: Edycja i usuwanie sklepów
+
+- **Outcome:** użytkownik poprawia zestaw kategorii przypisanych sklepowi oraz usuwa sklep, który przestał być potrzebny.
+- **Change ID:** `edycja-i-usuwanie-sklepow`
+- **PRD refs:** brak — żadne FR nie opisuje edycji ani usuwania sklepu. Sąsiaduje z FR-008, ale go nie realizuje. Rozstrzygnięcie odłożone do planowania tej pozycji (Otwarte pytanie 3).
+- **Prerequisites:** S-03
+- **Parallel with:** F-01, S-04, S-05
+- **Blockers:** —
+- **Unknowns:**
+  - Żadne FR nie opisuje edycji ani usuwania sklepu — czy PRD dostaje nowe wymaganie (np. FR-009), czy pozycja zostaje jako świadome rozszerzenie zakresu przez właściciela? — Owner: twórca. Block: no.
+  - Co ma się stać z rekomendacją i z danymi, gdy usuwany sklep jest właśnie tym rekomendowanym? — Owner: twórca. Block: no.
+- **Risk:** dodany przez właściciela podczas planowania S-03, gdy okazało się, że pierwsze przypisanie kategorii prawie na pewno będzie niepełne, a bez edycji jedyną drogą naprawy jest zmiana w bazie. Świadomie ustawione **po** gwieździe przewodniej: rekomendacja z S-04 działa na danych tylko dopisywanych, więc utrzymanie może poczekać. Główne ryzyko to zakres — „edycja sklepu" łatwo urasta do zarządzania kategoriami, którego §Poza zakresem nie przewiduje.
+- **Status:** proposed
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                       | Suggested issue title                                          | Ready for `/10x-plan` | Notes                                    |
 | ---------- | ------------------------------- | -------------------------------------------------------------- | --------------------- | ---------------------------------------- |
 | F-01       | `trwalosc-danych-produkcyjnych` | Potwierdzić i opisać ścieżkę odtworzenia produkcyjnej bazy      | yes                   | Może biec równolegle do całego strumienia A |
-| S-01       | `logowanie-i-prywatny-dostep`   | Logowanie loginem i hasłem, odcięcie niezalogowanych            | yes                   | Uruchom `/10x-plan logowanie-i-prywatny-dostep` |
-| S-02       | `wspolna-lista-produktow`       | Dodawanie produktów i wspólna lista na stronie głównej          | no                    | Czeka na S-01                            |
-| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | no                    | Czeka na S-02                            |
-| S-04       | `rekomendacja-sklepu`           | Rekomendacja sklepu przeliczana po każdej zmianie listy         | no                    | Gwiazda przewodnia; czeka na S-02 i S-03 |
+| S-01       | `logowanie-i-prywatny-dostep`   | Logowanie loginem i hasłem, odcięcie niezalogowanych            | done                  | Zarchiwizowane 2026-09-09                |
+| S-02       | `wspolna-lista-produktow`       | Dodawanie produktów i wspólna lista na stronie głównej          | done                  | Zarchiwizowane 2026-09-09                |
+| S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | planning              | Plan gotowy; `/10x-implement konfiguracja-sklepow phase 1` |
+| S-04       | `rekomendacja-sklepu`           | Rekomendacja sklepu przeliczana po każdej zmianie listy         | no                    | Gwiazda przewodnia; czeka na S-03        |
 | S-05       | `usuwanie-kupionych-produktow`  | Usuwanie kupionych produktów i przeliczenie rekomendacji        | no                    | Czeka na S-04                            |
+| S-06       | `edycja-i-usuwanie-sklepow`     | Edycja kategorii sklepu i usuwanie sklepu                       | no                    | Czeka na S-03; brak pokrycia w FR — patrz Otwarte pytanie 3 |
 
 ## Open Roadmap Questions
 
-1. **Czy kategoria produktu to wybór ze stałej, wcześniej zdefiniowanej listy, czy dowolny tekst wpisywany przez użytkownika?** — Owner: twórca. Block: S-02, S-03, S-04 (żadne z nich nie jest zablokowane, ale wszystkie trzy zaprojektuje się inaczej w zależności od odpowiedzi). §Non-Goals odrzuca automatyczne kategoryzowanie, ale nie rozstrzyga tej kwestii.
+1. ~~**Czy kategoria produktu to wybór ze stałej, wcześniej zdefiniowanej listy, czy dowolny tekst wpisywany przez użytkownika?**~~ — **Rozstrzygnięte 2026-09-09 przy planowaniu S-02**: osobna tabela kategorii z możliwością dopisania nowej z formularza, a porównanie nazw idzie przez `App\Support\NameComparison` (bez wielkości liter i spacji po bokach, polskie znaki znaczące). Szczegóły w `context/archive/2026-09-09-wspolna-lista-produktow/plan.md`.
 2. **Kiedy wdrożyć panel administracyjny do zarządzania kontami?** — Owner: twórca. Block: roadmap-wide (nic obecnie nie blokuje). FR-002/FR-003 są odłożone jako nice-to-have; na MVP konta zakładane wstępnie poza aplikacją. Przeniesione z §Open Questions PRD.
+3. **Czy edycja i usuwanie sklepów dostają własne wymaganie w PRD, czy zostają rozszerzeniem zakresu poza PRD?** — Owner: twórca. Block: S-06 (nie blokuje planowania, ale S-06 jest jedyną pozycją roadmapy bez czystego odwołania do FR). §Wymagania funkcjonalne mają wyłącznie FR-008 „dodać sklep i przypisać mu kategorie" — nic o poprawianiu ani kasowaniu. Rozstrzygnięcie: albo PRD dostaje FR-009/FR-010 i podbicie `version`, albo S-06 zostaje udokumentowanym rozszerzeniem zakresu przez właściciela.
 
 ## Parked
 
