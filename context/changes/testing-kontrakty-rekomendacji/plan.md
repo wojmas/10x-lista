@@ -418,29 +418,29 @@ Odstępstwa od planu podjęte w trakcie implementacji, zapisane tu zgodnie z
 
 #### Automated
 
-- [x] 1.1 Zestaw funkcjonalny zielony
-- [x] 1.2 Pełny zestaw zielony i liczniejszy niż 53 testy
-- [x] 1.3 Formatowanie (Pint)
-- [x] 1.4 Migracje na czystej bazie
+- [x] 1.1 Zestaw funkcjonalny zielony — ad33299
+- [x] 1.2 Pełny zestaw zielony i liczniejszy niż 53 testy — ad33299
+- [x] 1.3 Formatowanie (Pint) — ad33299
+- [x] 1.4 Migracje na czystej bazie — ad33299
 
 #### Manual
 
-- [x] 1.5 Próba obalenia testu unikalności (usunięcie `unique` z migracji)
-- [x] 1.6 Próba obalenia testu kolizji (`sync()` → `attach()`)
-- [x] 1.7 Docblock `StoreShopRequest` czyta się jako decyzja o rodzinie
+- [x] 1.5 Próba obalenia testu unikalności (usunięcie `unique` z migracji) — ad33299
+- [x] 1.6 Próba obalenia testu kolizji (`sync()` → `attach()`) — ad33299
+- [x] 1.7 Docblock `StoreShopRequest` czyta się jako decyzja o rodzinie — ad33299
 
 ### Phase 2: Usunięcie testu przechodzącego z niewłaściwego powodu
 
 #### Automated
 
-- [ ] 2.1 Pełny zestaw zielony, o jeden test mniej niż po Fazie 1
-- [ ] 2.2 Formatowanie (Pint)
+- [x] 2.1 Pełny zestaw zielony, o jeden test mniej niż po Fazie 1
+- [x] 2.2 Formatowanie (Pint)
 
 #### Manual
 
-- [ ] 2.3 `grep` po `tests/` nie znajduje innego testu twierdzącego o precedencji
-- [ ] 2.4 Kontrola: usunięcie `orderBy('id')` nadal nie wywala zestawu (stan udokumentowany)
-- [ ] 2.5 Docblock `index()` czyta się jako ostrzeżenie dla autora S-04
+- [x] 2.3 `grep` po `tests/` nie znajduje innego testu twierdzącego o precedencji
+- [x] 2.4 Kontrola: usunięcie `orderBy('id')` nadal nie wywala zestawu (stan udokumentowany)
+- [x] 2.5 Docblock `index()` czyta się jako ostrzeżenie dla autora S-04
 
 ### Phase 3: Domknięcie planu testów
 

@@ -19,6 +19,21 @@ class ShopController extends Controller
      * Logic settles an S-04 tie in favour of the shop added first, and the
      * screen must show the same precedence the recommendation will apply.
      * Categories are eager-loaded so rendering does not fire one query per shop.
+     *
+     * WARNING to whoever writes S-04: no test guards this clause. Removing
+     * orderBy('id') leaves the whole suite green, and a test written here could
+     * not change that. Without an ORDER BY, both engines return insertion order
+     * from a freshly filled table, so the assertion never gets the chance to
+     * fail. The divergence is real but Postgres-only and latent: it appears
+     * after an UPDATE to an indexed column (renaming a shop makes the row
+     * non-HOT, so the new tuple lands at the end of the heap and the shop added
+     * first comes back last). Nothing renames a shop until S-06.
+     *
+     * A test claiming to pin this used to live in ShopListTest and was deleted
+     * rather than kept green on a false promise. The proof belongs to §3 Phase 4
+     * of context/foundation/test-plan.md, which runs the suite on Postgres.
+     * Until it lands, this docblock is the contract — do not reach for
+     * Shop::all() or your own ordering in S-04.
      */
     public function index(): View
     {
