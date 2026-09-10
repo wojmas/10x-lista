@@ -12,15 +12,20 @@ class AddShopTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * The ids go in as strings on purpose: that is what an HTML form posts, and
+     * passing integers here hid a cast bug that only broke over real HTTP.
+     */
     public function test_a_member_adds_a_shop_with_the_categories_they_ticked(): void
     {
         $dairy = Category::factory()->create(['name' => 'Nabiał']);
         $bread = Category::factory()->create(['name' => 'Pieczywo']);
+        $other = Category::factory()->create(['name' => 'Napoje']);
 
         $this->actingAs(User::factory()->create())
             ->post('/shops', [
                 'name' => 'Biedronka',
-                'category_ids' => [$dairy->id, $bread->id],
+                'category_ids' => [(string) $dairy->id, (string) $bread->id, (string) $other->id],
             ])
             ->assertRedirect('/shops');
 
@@ -28,7 +33,7 @@ class AddShopTest extends TestCase
 
         $this->assertSame('Biedronka', $shop->name);
         $this->assertEqualsCanonicalizing(
-            ['Nabiał', 'Pieczywo'],
+            ['Nabiał', 'Pieczywo', 'Napoje'],
             $shop->categories->pluck('name')->all()
         );
     }

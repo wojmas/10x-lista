@@ -52,7 +52,10 @@ class ShopController extends Controller
         DB::transaction(function () use ($request): void {
             $shop = Shop::create(['name' => trim($request->string('name')->toString())]);
 
-            $categoryIds = $request->collect('category_ids')->map(intval(...));
+            // Cast explicitly rather than with intval(...): Collection::map hands
+            // the callback (value, key), and intval() reads that second argument
+            // as the numeric base, which quietly turns "3" at index 2 into 0.
+            $categoryIds = $request->collect('category_ids')->map(fn (mixed $id): int => (int) $id);
 
             if ($request->filled('new_category')) {
                 $categoryIds->push(CategoryResolver::resolve($request->string('new_category')->toString())->id);
