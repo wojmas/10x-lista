@@ -1,10 +1,10 @@
 ---
 change_id: testing-kontrakty-rekomendacji
 title: Kontrakty rekomendacji przed S-04 — faza 2 wdrożenia testów
-status: impl_reviewed
+status: archived
 created: 2026-09-10
 updated: 2026-09-10
-archived_at: null
+archived_at: 2026-09-10T12:54:39Z
 ---
 
 ## Notes
