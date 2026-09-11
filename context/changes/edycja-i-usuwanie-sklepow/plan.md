@@ -278,6 +278,7 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 ## Odstępstwa od planu (dopisywane w trakcie wdrożenia)
 
 - **Faza 1** — logika składania listy kategorii z formularza (rzutowanie id + opcjonalna nowa kategoria przez `CategoryResolver`) wyjechała ze `store()` do prywatnej metody `ShopController::assignedCategoryIds()`, współdzielonej ze `update()`. Plan wymieniał tylko dopisanie metod; powód zmiany w `store()`: inaczej pułapka z `intval()` i obsługa pola „nowa kategoria" istniałyby w dwóch kopiach, które mogą się rozjechać.
+- **Faza 2** — nazwa sklepu w komunikacie `confirm()` idzie przez `@js($shop->name)`, nie przez `{{ }}`. Plan nie przewidywał tego szczegółu: apostrof w nazwie sklepu zamknąłby łańcuch JS wewnątrz atrybutu `onsubmit` i zepsułby potwierdzenie.
 
 ## Progress
 
@@ -287,10 +288,10 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Automated
 
-- [x] 1.1 Testy przechodzą: `composer test`
-- [x] 1.2 Nowe testy edycji przechodzą: `php artisan test --filter=EditShopTest`
-- [x] 1.3 Istniejące testy sklepów bez regresji: `php artisan test --filter='AddShopTest|ShopListTest|ShopRecommendationTest|HomeRecommendationTest'`
-- [x] 1.4 Formatowanie zgodne: `./vendor/bin/pint --test`
+- [x] 1.1 Testy przechodzą: `composer test` — 46dc18d
+- [x] 1.2 Nowe testy edycji przechodzą: `php artisan test --filter=EditShopTest` — 46dc18d
+- [x] 1.3 Istniejące testy sklepów bez regresji: `php artisan test --filter='AddShopTest|ShopListTest|ShopRecommendationTest|HomeRecommendationTest'` — 46dc18d
+- [x] 1.4 Formatowanie zgodne: `./vendor/bin/pint --test` — 46dc18d
 
 #### Manual
 
@@ -302,9 +303,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Automated
 
-- [ ] 2.1 Testy przechodzą: `composer test`
-- [ ] 2.2 Nowe testy kasowania przechodzą: `php artisan test --filter=RemoveShopTest`
-- [ ] 2.3 Formatowanie zgodne: `./vendor/bin/pint --test`
+- [x] 2.1 Testy przechodzą: `composer test`
+- [x] 2.2 Nowe testy kasowania przechodzą: `php artisan test --filter=RemoveShopTest`
+- [x] 2.3 Formatowanie zgodne: `./vendor/bin/pint --test`
 
 #### Manual
 

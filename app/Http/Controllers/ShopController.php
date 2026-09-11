@@ -101,6 +101,33 @@ class ShopController extends Controller
     }
 
     /**
+     * Take a shop out of the configuration, for good.
+     *
+     * The id arrives as a plain int rather than a route-model-bound Shop, the
+     * same call as in ProductController::destroy(): the shop list is shared, so
+     * two members can have it open and both submit the same removal. Binding
+     * would answer the second one with a 404 — an error page for an action that
+     * did what the member wanted. Shop::destroy() raises nothing when the id
+     * matches no row, so both requests end on the list with the shop gone.
+     *
+     * The category assignments go with it through the cascade on
+     * category_shop.shop_id; nothing here detaches them. The categories
+     * themselves stay, including ones now used by no shop — cleaning those up is
+     * out of scope, and restrictOnDelete on category_id is what keeps a stray
+     * cleanup from taking a category still attached to products.
+     *
+     * Nothing here recalculates the recommendation, for the same reason as with
+     * products: ProductController::index() computes it on every visit to the
+     * home screen, so a second copy of the rule here could only drift from it.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        Shop::destroy($id);
+
+        return redirect()->route('shops.index');
+    }
+
+    /**
      * The categories one submission of the shop form names — ticked, typed in,
      * or both. Shared by store() and update() so the two forms cannot drift on
      * what "typed in a new category" means.

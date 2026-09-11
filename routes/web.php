@@ -25,6 +25,11 @@ Route::middleware('auth')->group(function () {
     // kasowanie robi odwrotnie, stoi przy trasie shops.destroy.
     Route::get('/shops/{shop}/edit', [ShopController::class, 'edit'])->name('shops.edit');
     Route::put('/shops/{shop}', [ShopController::class, 'update'])->name('shops.update');
+    // A tu {id}, nie {shop} — jak przy products.destroy i z tego samego powodu:
+    // druga nazwa podpowiada type-hint Shop, ten włącza route model binding, a
+    // ten odpowiada 404 na drugie żądanie kasujące ten sam sklep. Powód stoi w
+    // docblocku destroy().
+    Route::delete('/shops/{id}', [ShopController::class, 'destroy'])->name('shops.destroy');
 });
 
 require __DIR__.'/auth.php';
