@@ -63,6 +63,29 @@
                             <li class="p-4 sm:px-6 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                                 <span class="text-gray-900 font-medium break-words">{{ $product->name }}</span>
                                 <span class="text-sm text-gray-500">{{ $product->category->name }}</span>
+
+                                {{--
+                                    Napis nazywa naraz intencję („kupione") i skutek
+                                    („usuń"), bo potwierdzenia nie ma — produkt znika
+                                    od razu i bezpowrotnie (§Non-Goals PRD: brak
+                                    historii zakupów). Tekst zamiast ikony kosza daje
+                                    też duży cel dotykowy i czyta się w czytniku
+                                    ekranu bez aria-label.
+                                --}}
+                                <form method="POST" action="{{ route('products.destroy', $product) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    {{--
+                                        cursor-pointer jest tu jawnie, bo Tailwind 4
+                                        zmienił domyślny kursor przycisku na `default`
+                                        — bez tej klasy najechanie nie zmienia wskaźnika.
+                                    --}}
+                                    <button type="submit"
+                                        class="cursor-pointer inline-flex items-center px-3 py-1.5 rounded-md bg-red-600 text-xs font-semibold text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                        Kupione — usuń
+                                    </button>
+                                </form>
                             </li>
                         @endforeach
                     </ul>

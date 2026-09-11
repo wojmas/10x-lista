@@ -66,4 +66,26 @@ class ProductController extends Controller
 
         return redirect()->route('home');
     }
+
+    /**
+     * Take a bought product off the shared list, for good.
+     *
+     * The id arrives as a plain int rather than a route-model-bound Product on
+     * purpose. The list belongs to the whole family, so two members can have the
+     * same page open — and one slow double-tap produces the same second request.
+     * Binding would answer that with a 404: an error page for an action that did
+     * what the member wanted. Product::destroy() reports how many rows went and
+     * throws on none, so both requests end on the list with the product gone.
+     *
+     * Nothing here recalculates the recommendation. index() computes it on every
+     * visit, and this redirect goes there — which is what makes US-01's "removing
+     * a product feeds back into the recommendation" true with no cache to
+     * invalidate. Adding a recalculation here would be a second, divergent copy.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        Product::destroy($id);
+
+        return redirect()->route('home');
+    }
 }

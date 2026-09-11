@@ -36,7 +36,7 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | done     |
 | S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | done     |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | done     |
-| S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | proposed |
+| S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | in-progress |
 | S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | proposed |
 
 ## Streams
@@ -139,7 +139,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** domyka pełen cykl zakupowy z §Success Criteria i jest jedynym miejscem, gdzie kryterium akceptacji „usunięty produkt wpływa na przeliczenie rekomendacji" da się zweryfikować — dlatego sekwencjonowane po S-04, a nie razem z dodawaniem produktów. Usunięcie jest trwałe (§Non-Goals: brak historii zakupów), więc pomyłkowe kliknięcie oznacza bezpowrotną utratę pozycji.
-- **Status:** proposed
+- **Status:** in-progress
 
 ### S-06: Edycja i usuwanie sklepów
 
