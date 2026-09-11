@@ -85,7 +85,7 @@ Rodzina wdrożyła Laravela na darmowym Renderze, kuszona „prawdziwym free tie
 | Risk | Source | Likelihood | Impact | Mitigation |
 |---|---|---|---|---|
 | Ktoś użyje darmowego Postgresa Rendera zamiast Neona → kasacja danych po 30 dniach | Pre-mortem / Research finding | M | H | Baza wyłącznie na Neon; w `render.yaml`/docs repo zapisać „NIE twórz Render Postgres"; w README link do Neona |
-| Brak backupów na Neon free → utrata danych (guardrail „dane nie mogą się gubić") | Devil's advocate / Research | M | H | Cron `pg_dump` do zewn. storage (GitHub Actions / R2) lub Neon branching; udokumentować odtwarzanie |
+| Brak backupów na Neon free → utrata danych (guardrail „dane nie mogą się gubić") | Devil's advocate / Research | M | H | **Częściowo zmitygowane 2026-09-11:** instant restore Neona w oknie **6 h**, procedura opisana w `context/deployment/deploy-plan.md` → „Odtworzenie bazy". Strata zauważona po ponad 6 h nadal nieodwracalna — cykliczny `pg_dump` świadomie odłożony |
 | Dockerfile z nieprzypiętą wersją PHP → build pęka przy aktualizacji Laravela | Unknown unknowns / Pre-mortem | M | M | Przypiąć `php:8.3-fpm` jawnie; budować obraz w CI przed deployem |
 | Cold start web ~1 min psuje mobilny UX | Devil's advocate | H | L | Zaakceptowane na MVP; jeśli uciążliwe → najtańszy płatny web (znosi spin-down) |
 | MCP/agent nadpisze `APP_KEY`/`DATABASE_URL` i rozłączy apkę | Unknown unknowns | L | H | Zmiany env przez agenta wymagają review; rotacja `APP_KEY` tylko ręcznie |

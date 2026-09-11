@@ -31,7 +31,7 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 
 | ID   | Change ID                      | Outcome (użytkownik może …)                                            | Prerequisites | PRD refs                     | Status   |
 | ---- | ------------------------------ | ---------------------------------------------------------------------- | ------------- | ---------------------------- | -------- |
-| F-01 | `trwalosc-danych-produkcyjnych` | (foundation) potwierdzona ścieżka odtworzenia produkcyjnej bazy danych | —             | §Guardrails, §NFR (24/7)     | ready    |
+| F-01 | `trwalosc-danych-produkcyjnych` | (foundation) potwierdzona ścieżka odtworzenia produkcyjnej bazy danych | —             | §Guardrails, §NFR (24/7)     | in-progress |
 | S-01 | `logowanie-i-prywatny-dostep`   | zalogować się i zobaczyć stronę główną niedostępną dla niezalogowanych | —             | FR-001, US-01, §Access Control | done     |
 | S-02 | `wspolna-lista-produktow`       | dodać produkt z nazwą i kategorią i zobaczyć wspólną listę rodziny     | S-01          | FR-004, FR-005, US-01        | done     |
 | S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | done     |
@@ -73,9 +73,9 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 - **Parallel with:** S-01, S-02, S-03, S-04, S-05
 - **Blockers:** —
 - **Unknowns:**
-  - Jaki zakres odtworzenia danych daje darmowy tier Neon (retencja historii) i czy wystarcza bez własnego zrzutu bazy? — Owner: twórca. Block: no.
+  - ~~Jaki zakres odtworzenia danych daje darmowy tier Neon (retencja historii) i czy wystarcza bez własnego zrzutu bazy?~~ — **Rozstrzygnięte 2026-09-11**: instant restore w oknie **6 godzin** (1 GB historii zmian), brak automatycznych backupów na free. Właściciel przyjął to okno świadomie i odłożył cykliczny `pg_dump`; procedura i przyjęte ryzyko w `context/deployment/deploy-plan.md` → „Odtworzenie bazy".
 - **Risk:** `deploy-plan.md` zostawia backupy jako follow-up po MVP; przy celu „jakość i solidność" oznaczałoby to, że jedyna twarda bariera PRD nie ma dowodu. Zakres jest celowo minimalny — potwierdzenie i opisanie ścieżki odtworzenia, nie budowa własnego systemu backupów.
-- **Status:** ready
+- **Status:** in-progress
 
 ## Slices
 
