@@ -19,6 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/shops', [ShopController::class, 'index'])->name('shops.index');
     Route::get('/shops/create', [ShopController::class, 'create'])->name('shops.create');
     Route::post('/shops', [ShopController::class, 'store'])->name('shops.store');
+    // Tu parametr nazywa się {shop} celowo — odwrotnie niż przy produktach.
+    // Edycja nieistniejącego sklepu to realny błąd (stary link, literówka w URL),
+    // więc route model binding i 404 są właściwą odpowiedzią. Powód, dla którego
+    // kasowanie robi odwrotnie, stoi przy trasie shops.destroy.
+    Route::get('/shops/{shop}/edit', [ShopController::class, 'edit'])->name('shops.edit');
+    Route::put('/shops/{shop}', [ShopController::class, 'update'])->name('shops.update');
 });
 
 require __DIR__.'/auth.php';

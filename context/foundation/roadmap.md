@@ -37,7 +37,7 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | done     |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | done     |
 | S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | done     |
-| S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | proposed |
+| S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | in-progress |
 
 ## Streams
 
@@ -153,7 +153,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
   - Żadne FR nie opisuje edycji ani usuwania sklepu — czy PRD dostaje nowe wymaganie (np. FR-009), czy pozycja zostaje jako świadome rozszerzenie zakresu przez właściciela? — Owner: twórca. Block: no.
   - Co ma się stać z rekomendacją i z danymi, gdy usuwany sklep jest właśnie tym rekomendowanym? — Owner: twórca. Block: no.
 - **Risk:** dodany przez właściciela podczas planowania S-03, gdy okazało się, że pierwsze przypisanie kategorii prawie na pewno będzie niepełne, a bez edycji jedyną drogą naprawy jest zmiana w bazie. Świadomie ustawione **po** gwieździe przewodniej: rekomendacja z S-04 działa na danych tylko dopisywanych, więc utrzymanie może poczekać. Główne ryzyko to zakres — „edycja sklepu" łatwo urasta do zarządzania kategoriami, którego §Poza zakresem nie przewiduje.
-- **Status:** proposed
+- **Status:** in-progress
 
 ## Backlog Handoff
 

@@ -23,15 +23,34 @@
                     <ul class="divide-y divide-gray-200">
                         @foreach ($shops as $shop)
                             <li class="p-4 sm:px-6">
-                                <span class="text-gray-900 font-medium break-words">{{ $shop->name }}</span>
+                                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+                                    <span class="text-gray-900 font-medium break-words">{{ $shop->name }}</span>
 
-                                <div class="mt-2 flex flex-wrap gap-1.5">
-                                    @foreach ($shop->categories as $category)
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded bg-gray-100 text-sm text-gray-600 break-words">
-                                            {{ $category->name }}
-                                        </span>
-                                    @endforeach
+                                    <a href="{{ route('shops.edit', $shop) }}"
+                                        class="text-sm text-gray-600 underline hover:text-gray-900">
+                                        Edytuj
+                                    </a>
                                 </div>
+
+                                {{--
+                                    Sklep bez kategorii powstaje dopiero przy edycji
+                                    i jest stanem dozwolonym. Bez tego zdania wiersz
+                                    wygląda na uszkodzony, a nic nie mówi, dlaczego
+                                    ten sklep nigdy nie pojawia się w rekomendacji.
+                                --}}
+                                @if ($shop->categories->isEmpty())
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        Brak kategorii — ten sklep nie trafi do rekomendacji.
+                                    </p>
+                                @else
+                                    <div class="mt-2 flex flex-wrap gap-1.5">
+                                        @foreach ($shop->categories as $category)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded bg-gray-100 text-sm text-gray-600 break-words">
+                                                {{ $category->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </li>
                         @endforeach
                     </ul>
