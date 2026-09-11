@@ -296,9 +296,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [x] 1.5 Edycja nazwy i kategorii działa z telefonu — wiersz listy się zmienia, układ się nie rozjeżdża
-- [x] 1.6 Sklep bez kategorii pokazuje komunikat na liście i nie pojawia się jako rekomendacja
-- [x] 1.7 Błąd walidacji wraca do formularza z zachowanymi zaznaczeniami kategorii
+- [x] 1.5 Edycja nazwy i kategorii działa z telefonu — wiersz listy się zmienia, układ się nie rozjeżdża — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
+- [x] 1.6 Sklep bez kategorii pokazuje komunikat na liście i nie pojawia się jako rekomendacja — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
+- [x] 1.7 Błąd walidacji wraca do formularza z zachowanymi zaznaczeniami kategorii — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
 
 ### Phase 2: Usuwanie sklepu
 
@@ -310,9 +310,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [x] 2.4 Klik „Usuń" pokazuje potwierdzenie; anulowanie nie kasuje niczego
-- [x] 2.5 Po potwierdzeniu sklep znika z listy, a rekomendacja przelicza się bez niego
-- [x] 2.6 Układ wiersza z dwiema akcjami trzyma się na telefonie
+- [x] 2.4 Klik „Usuń" pokazuje potwierdzenie; anulowanie nie kasuje niczego — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
+- [x] 2.5 Po potwierdzeniu sklep znika z listy, a rekomendacja przelicza się bez niego — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
+- [x] 2.6 Układ wiersza z dwiema akcjami trzyma się na telefonie — sprawdzone 2026-09-11 (przebieg Playwright na działającej aplikacji, viewport 390×844)
 
 ### Phase 3: PRD i roadmapa
 
@@ -322,5 +322,5 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [x] 3.2 FR-009 i FR-010 opisują to, co faktycznie działa po Fazach 1-2
-- [x] 3.3 Roadmapa nie zawiera już otwartego pytania o pokrycie S-06 w PRD
+- [x] 3.2 FR-009 i FR-010 opisują to, co faktycznie działa po Fazach 1-2 — sprawdzone 2026-09-11 (przegląd treści PRD i roadmapy)
+- [x] 3.3 Roadmapa nie zawiera już otwartego pytania o pokrycie S-06 w PRD — sprawdzone 2026-09-11 (przegląd treści PRD i roadmapy)
