@@ -6,7 +6,7 @@
 >
 > Odświeżenie: uruchom `/10x-test-plan --refresh`, gdy plan się zestarzeje (patrz §8).
 >
-> Last updated: 2026-09-10 (Faza 2 wykonana; §3 przenosi remis do Fazy 4, §6.3 wypełnione)
+> Last updated: 2026-09-11 (slice S-04 skonsolidował klauzulę precedencji do scope'u; §3 Faza 4 i §6.3 zaktualizowane)
 
 ## 1. Strategy
 
@@ -127,6 +127,14 @@ Uzasadnienie kolejności:
   Wyzwalacz do przesunięcia jej do przodu: **start slice'u S-04** albo
   jakikolwiek ekran zmieniający nazwę sklepu (S-06), który czyni rozbieżność
   osiągalną z UI.
+  **Wyzwalacz zadziałał (2026-09-11)**: slice S-04 ruszył. Właściciel wybrał
+  konsolidację zamiast przesunięcia fazy — klauzula `orderBy('id')` przeniosła
+  się z ciała `ShopController::index()` do scope'u `Shop::inPrecedenceOrder()`,
+  więc Faza 4 ma teraz **jedno** miejsce do zapięcia zamiast dwóch kopii.
+  Samego dowodu to nie dostarcza: `ShopRecommendationTest` pinuje tie-break
+  liczony w PHP, a nie kolejność, w jakiej wiersze wychodzą z bazy. Ta połowa
+  ryzyka #1 pozostaje długiem tej fazy, teraz już z realnym konsumentem na
+  produkcji.
 
 **Brak fazy AI-native — to decyzja, nie przeoczenie.** Aplikacja to cztery
 ekrany CRUD dla pięciu osób; każde ryzyko w §2 ma tańszy test
@@ -283,9 +291,14 @@ tej fazie:
 - **Sklep o zerowym pokryciu jest w bazie legalny** (`database/factories/ShopFactory.php`),
   odrzuca go dopiero formularz. S-04 musi go obsłużyć, mimo że formularz takiego
   nie utworzy — wyprodukuje go S-06 przez usunięcie kategorii.
-- **Precedencja sklepów żyje inline w `ShopController::index()`** i nic nie
-  zmusza S-04 do tej samej klauzuli. Docblock tej metody jest dziś jedynym
-  nośnikiem kontraktu; nie pisz w S-04 własnego uporządkowania sklepów.
+- **Precedencja sklepów żyje w scope'ie `Shop::inPrecedenceOrder()`.**
+  ~~Inline w `ShopController::index()`~~ — S-04 skonsolidował klauzulę do jednego
+  miejsca, z którego czytają obaj konsumenci (lista sklepów i rekomendacja).
+  Docblock scope'u jest nośnikiem kontraktu; nie pisz nigdzie własnego
+  uporządkowania sklepów. **Dowodu nadal nie ma**: `ShopRecommendationTest`
+  pinuje wyłącznie tie-break stosowany w PHP po tym, jak wiersze przyjdą, i
+  przechodzi także po usunięciu `ORDER BY` ze scope'u. Kolejność, w jakiej
+  wiersze przychodzą, należy do Fazy 4.
 - **Pokrycie to liczba różnych kategorii, nie liczba produktów.** Trzy produkty
   w dwóch kategoriach dają pokrycie 2. To wejście reguły, więc jego test należy
   do planu S-04.
