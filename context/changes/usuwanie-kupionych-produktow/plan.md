@@ -3,7 +3,7 @@
 ## Overview
 
 Wiersz listy zakupów dostaje przycisk „Kupione — usuń". Kliknięcie wysyła
-`DELETE /products/{product}`, produkt znika bezpowrotnie, a strona główna
+`DELETE /products/{id}`, produkt znika bezpowrotnie, a strona główna
 przelicza rekomendację bez niego.
 
 To ostatni slice strumienia A z roadmapy. Domyka pełen cykl zakupowy z
@@ -56,7 +56,7 @@ bez tej kategorii — jeśli usunięty produkt był jedynym w swojej kategorii,
 liczba „pokrywa N z M" spada, a przy odpowiednim układzie danych zmienia się sam
 rekomendowany sklep. Niezalogowany nie może usunąć niczego.
 
-Weryfikacja: `RemoveProductTest` przechodzi w pięciu scenariuszach opisanych w
+Weryfikacja: `RemoveProductTest` przechodzi w sześciu scenariuszach opisanych w
 §Testing Strategy, a ręczne kliknięcie na telefonie usuwa właściwy wiersz.
 
 ### Key Discoveries:
@@ -201,7 +201,7 @@ przy polskich znakach diakrytycznych.
 
 - Zestaw Feature przechodzi: `docker compose exec app php vendor/bin/phpunit --testsuite Feature`
 - Cały zestaw przechodzi: `docker compose exec app composer test`
-- Formatowanie czyste: `docker compose exec app php artisan pint --test`
+- Formatowanie czyste: `docker compose exec app php vendor/bin/pint --test`
 - Próba obalenia (§6.3 reguła 2): zamiana `int $id` na `Product $product` w
   sygnaturze `destroy()` wywraca **dokładnie** test wyścigu i żaden inny
 - Próba obalenia: usunięcie `@method('DELETE')` z formularza w `home.blade.php`
@@ -229,13 +229,13 @@ uzasadnieniem.
 
 ## Testing Strategy
 
-Pięć testów w `tests/Feature/RemoveProductTest.php`. Warstwa integracyjna po
+Sześć testów w `tests/Feature/RemoveProductTest.php`. Warstwa integracyjna po
 HTTP, bo każde z tych ryzyk jest ryzykiem na ścieżce użytkownika, a nie regułą
 dającą się zawołać bez bazy (§6.1 test-planu odsyła takie do `tests/Feature/`).
 
 ### Integration Tests:
 
-1. **`test_removing_a_product_recalculates_the_recommendation`** — dowodzi
+1. **`test_removing_products_recalculates_the_recommendation`** — dowodzi
    drugiego kryterium akceptacji US-01 i jest powodem, dla którego ten slice
    stoi po S-04. Dane kontrolne muszą być tak dobrane, żeby usunięcie zmieniło
    **zwycięzcę**, a nie tylko liczbę: dwa sklepy o różnym pokryciu, gdzie
@@ -267,6 +267,14 @@ dającą się zawołać bez bazy (§6.1 test-planu odsyła takie do `tests/Featu
    drugi raz, oczekuj przekierowania na `home` (nie 404). Ten test jest jedynym
    dowodem na brak route model bindingu; próba obalenia z §Success Criteria
    musi trafić dokładnie w niego.
+
+6. **`test_the_list_renders_a_working_removal_button`** — jedyny test patrzący
+   na przycisk zamiast wołać trasę. Pozostałe pięć wysyła `DELETE` wprost, więc
+   przechodzą także wtedy, gdy widok nie renderuje nic — albo gdy w późniejszej
+   edycji wypadnie `@method('DELETE')` i klik zamieni się w `POST /products/{id}`
+   i 405. Asercja obejmuje napis przycisku, adres trasy i ukryte `_method`.
+   Dopisany w trakcie fazy; uzasadnienie wyjątku od §6.3 reguły 4 test-planu
+   stoi w odstępstwie 3.
 
 ### Manual Testing Steps:
 
@@ -306,7 +314,8 @@ commita.
 
 ## Deviations Taken During Implementation
 
-Cztery odstępstwa od tego planu, podjęte w trakcie Fazy 1.
+Pięć odstępstw od tego planu. Cztery pierwsze podjęte w trakcie Fazy 1, piąte
+w triage'u przeglądu implementacji (`reviews/impl-review.md`, ustalenie F2).
 
 1. **Test przeliczonej rekomendacji usuwa dwa produkty, nie jeden.** Plan
    wymagał danych kontrolnych, w których *jedno* usunięcie odwraca ranking
@@ -356,6 +365,20 @@ Cztery odstępstwa od tego planu, podjęte w trakcie Fazy 1.
      `.gitignore`, więc do commita nic z tego nie trafia; wdrożenie musi
      zbudować front samo.
 
+5. **Parametr trasy nazywa się `{id}`, nie `{product}`.** Contract w
+   §Changes Required podawał `/products/{product}`; przegląd implementacji
+   (ustalenie F2) wykazał, że ta nazwa pracuje przeciwko decyzji, którą ten plan
+   uznaje za najważniejszą. Laravel dopasowuje parametry trasy do argumentów
+   metody najpierw po nazwie, a `product` nie odpowiada `int $id` — wiązanie
+   działało wyłącznie przez pozycyjny fallback. Ważniejsze: nazwa `{product}`
+   jest dokładnie tą podpowiedzią, przez którą następny czytelnik wpisuje
+   `Product $product` „dla spójności", włączając route model binding i 404,
+   które §Implementation Approach odrzuca. Test wyścigu to łapie, ale dopiero po
+   napisaniu złego kodu. `{id}` zgadza się z argumentem, usuwa podpowiedź i nie
+   zmienia kształtu URL-a — `route('products.destroy', $product)` w widoku działa
+   bez zmiany, bo Laravel sprowadza model do klucza trasy niezależnie od nazwy
+   placeholdera. Powód stoi w komentarzu przy trasie. Zestaw po zmianie: 69/230.
+
 ## Progress
 
 > Konwencja: `- [ ]` oczekujące, `- [x]` zrobione. Dopisz ` — <commit sha>`, gdy
@@ -367,7 +390,7 @@ Cztery odstępstwa od tego planu, podjęte w trakcie Fazy 1.
 
 - [x] 1.1 Zestaw Feature przechodzi: `docker compose exec app php vendor/bin/phpunit --testsuite Feature` — e493636
 - [x] 1.2 Cały zestaw przechodzi: `docker compose exec app composer test` — e493636
-- [x] 1.3 Formatowanie czyste: `docker compose exec app php artisan pint --test` — e493636
+- [x] 1.3 Formatowanie czyste: `docker compose exec app php vendor/bin/pint --test` — e493636
 - [x] 1.4 Próba obalenia: `Product $product` w sygnaturze `destroy()` wywraca dokładnie test wyścigu — e493636
 - [x] 1.5 Próba obalenia: usunięcie `@method('DELETE')` wywraca testy usuwania — e493636
 

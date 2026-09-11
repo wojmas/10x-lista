@@ -74,8 +74,9 @@ class ProductController extends Controller
      * purpose. The list belongs to the whole family, so two members can have the
      * same page open — and one slow double-tap produces the same second request.
      * Binding would answer that with a 404: an error page for an action that did
-     * what the member wanted. Product::destroy() reports how many rows went and
-     * throws on none, so both requests end on the list with the product gone.
+     * what the member wanted. Product::destroy() returns how many rows it
+     * removed and raises nothing when the id matches none, so both requests end
+     * on the list with the product gone.
      *
      * Nothing here recalculates the recommendation. index() computes it on every
      * visit, and this redirect goes there — which is what makes US-01's "removing

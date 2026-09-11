@@ -11,7 +11,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    // Parametr celowo nazywa się {id}, nie {product}: druga nazwa podpowiada
+    // type-hint Product w destroy(), a ten włącza route model binding i 404,
+    // które ta funkcja odrzuca. Powód stoi w docblocku destroy().
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
     Route::get('/shops', [ShopController::class, 'index'])->name('shops.index');
     Route::get('/shops/create', [ShopController::class, 'create'])->name('shops.create');
