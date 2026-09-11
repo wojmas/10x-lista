@@ -1,7 +1,7 @@
 ---
 change_id: edycja-i-usuwanie-sklepow
 title: Edycja i usuwanie sklepow
-status: implementing
+status: implemented
 created: 2026-09-11
 updated: 2026-09-11
 archived_at: null

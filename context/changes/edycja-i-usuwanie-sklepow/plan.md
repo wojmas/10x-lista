@@ -278,6 +278,7 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 ## Odstępstwa od planu (dopisywane w trakcie wdrożenia)
 
 - **Faza 1** — logika składania listy kategorii z formularza (rzutowanie id + opcjonalna nowa kategoria przez `CategoryResolver`) wyjechała ze `store()` do prywatnej metody `ShopController::assignedCategoryIds()`, współdzielonej ze `update()`. Plan wymieniał tylko dopisanie metod; powód zmiany w `store()`: inaczej pułapka z `intval()` i obsługa pola „nowa kategoria" istniałyby w dwóch kopiach, które mogą się rozjechać.
+- **Weryfikacja ręczna (1.5–2.6)** — wykonana skryptem Playwright przeciwko działającej aplikacji (`http://localhost:8080`, viewport 390×844), nie przez człowieka klikającego w telefon. Pokryte: edycja nazwy i kategorii, brak poziomego przewijania i widoczność obu akcji w wierszu, komunikat o braku kategorii i zniknięcie sklepu z rekomendacji, zachowanie zaznaczeń po błędzie walidacji, dialog `confirm()` z nazwą sklepu — anulowanie zostawia sklep (sprawdzone po przeładowaniu z serwera), akceptacja kasuje i zmienia rekomendację. Skrypt był tymczasowy i został usunięty; sprzątnął po sobie dane testowe. Punkty 3.2–3.3 zweryfikowane przeglądem treści PRD i roadmapy.
 - **Faza 2** — nazwa sklepu w komunikacie `confirm()` idzie przez `@js($shop->name)`, nie przez `{{ }}`. Plan nie przewidywał tego szczegółu: apostrof w nazwie sklepu zamknąłby łańcuch JS wewnątrz atrybutu `onsubmit` i zepsułby potwierdzenie.
 
 ## Progress
@@ -295,9 +296,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [ ] 1.5 Edycja nazwy i kategorii działa z telefonu — wiersz listy się zmienia, układ się nie rozjeżdża
-- [ ] 1.6 Sklep bez kategorii pokazuje komunikat na liście i nie pojawia się jako rekomendacja
-- [ ] 1.7 Błąd walidacji wraca do formularza z zachowanymi zaznaczeniami kategorii
+- [x] 1.5 Edycja nazwy i kategorii działa z telefonu — wiersz listy się zmienia, układ się nie rozjeżdża
+- [x] 1.6 Sklep bez kategorii pokazuje komunikat na liście i nie pojawia się jako rekomendacja
+- [x] 1.7 Błąd walidacji wraca do formularza z zachowanymi zaznaczeniami kategorii
 
 ### Phase 2: Usuwanie sklepu
 
@@ -309,9 +310,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [ ] 2.4 Klik „Usuń" pokazuje potwierdzenie; anulowanie nie kasuje niczego
-- [ ] 2.5 Po potwierdzeniu sklep znika z listy, a rekomendacja przelicza się bez niego
-- [ ] 2.6 Układ wiersza z dwiema akcjami trzyma się na telefonie
+- [x] 2.4 Klik „Usuń" pokazuje potwierdzenie; anulowanie nie kasuje niczego
+- [x] 2.5 Po potwierdzeniu sklep znika z listy, a rekomendacja przelicza się bez niego
+- [x] 2.6 Układ wiersza z dwiema akcjami trzyma się na telefonie
 
 ### Phase 3: PRD i roadmapa
 
@@ -321,5 +322,5 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Manual
 
-- [ ] 3.2 FR-009 i FR-010 opisują to, co faktycznie działa po Fazach 1-2
-- [ ] 3.3 Roadmapa nie zawiera już otwartego pytania o pokrycie S-06 w PRD
+- [x] 3.2 FR-009 i FR-010 opisują to, co faktycznie działa po Fazach 1-2
+- [x] 3.3 Roadmapa nie zawiera już otwartego pytania o pokrycie S-06 w PRD
