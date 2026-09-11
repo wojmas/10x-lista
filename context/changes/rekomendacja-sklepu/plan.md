@@ -504,16 +504,16 @@ wdrożeniu, których plan nie przewidział, zapisane tutaj, nie tylko w rozmowie
 
 #### Automated
 
-- [x] 2.1 Panel pokazuje zwycięzcę i licznik pokrycia
-- [x] 2.2 Pusta lista pokazuje komunikat zamiast sklepu
-- [x] 2.3 Brak dopasowania pokazuje komunikat o braku dopasowania
-- [x] 2.4 Alternatywa widoczna wyłącznie przy pokryciu większym od zera
-- [x] 2.5 Cały zestaw zielony
-- [x] 2.6 Formatowanie czyste
+- [x] 2.1 Panel pokazuje zwycięzcę i licznik pokrycia — 1fcf0de
+- [x] 2.2 Pusta lista pokazuje komunikat zamiast sklepu — 1fcf0de
+- [x] 2.3 Brak dopasowania pokazuje komunikat o braku dopasowania — 1fcf0de
+- [x] 2.4 Alternatywa widoczna wyłącznie przy pokryciu większym od zera — 1fcf0de
+- [x] 2.5 Cały zestaw zielony — 1fcf0de
+- [x] 2.6 Formatowanie czyste — 1fcf0de
 
 #### Manual
 
-- [x] 2.7 Próba obalenia każdego z czterech testów panelu
-- [x] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją
+- [x] 2.7 Próba obalenia każdego z czterech testów panelu — 1fcf0de
+- [x] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją — 1fcf0de
 - [ ] 2.9 Panel czyta się na szerokości telefonu, odmiana liczebnika poprawna dla 1, 2 i 5
-- [x] 2.10 Strona główna nie strzela zapytaniem na sklep
+- [x] 2.10 Strona główna nie strzela zapytaniem na sklep — 1fcf0de
