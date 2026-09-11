@@ -530,3 +530,9 @@ wdrożeniu, których plan nie przewidział, zapisane tutaj, nie tylko w rozmowie
 - [x] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją — 1fcf0de
 - [x] 2.9 Panel czyta się na szerokości telefonu, odmiana liczebnika poprawna dla 1, 2 i 5 — 922615b
 - [x] 2.10 Strona główna nie strzela zapytaniem na sklep — 1fcf0de
+
+**Po przeglądzie implementacji (2026-09-11, `reviews/impl-review.md`):**
+
+- **F1 — dopisany dziesiąty test**, `HomeRecommendationTest::test_a_list_with_no_shops_at_all_points_at_the_shop_configuration`. §Desired End State wymieniał stan „także gdy sklepów nie ma wcale", a żaden z dziewięciu testów nie uruchamiał pustej tabeli `shops`.
+- **F2 — zmieniona sygnatura reguły** na `ShopRecommendation::for(Collection $products)`: sklepy czyta sama, zamiast przyjmować je jako argument. Plan zakładał dwa argumenty, ale wtedy dwa warunki wejściowe (kolejność precedencji, eager-load) żyją tylko w docblocku, a plan sam nazywa S-05 drugim konsumentem. Zapytanie było już w dwóch kontrolerach.
+- **F3 — 2.9 zostaje odhaczone**, właściciel obejrzy panel na telefonie po swojemu.

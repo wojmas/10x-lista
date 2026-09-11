@@ -42,19 +42,24 @@ final readonly class ShopRecommendation
     /**
      * Score the shops against the list.
      *
-     * $shops must arrive in precedence order (Shop::inPrecedenceOrder()) with
-     * categories eager-loaded. The ordering is load-bearing, not cosmetic: PHP
-     * sorts are stable, so sorting that collection by coverage descending leaves
-     * shops of equal coverage in their incoming id order — and that is exactly
-     * how "a tie goes to the shop added first" is implemented. Reversing these
-     * two operations, or handing in an unordered collection, breaks the rule
-     * without reporting anything.
+     * The shops are read here rather than passed in. That is deliberate: the
+     * rule depends on them arriving in precedence order with categories
+     * eager-loaded, and a caller who got either wrong would produce a wrong
+     * tie-break or an N+1 with nothing reported and every test still green.
+     * Owning the query removes the way to get it wrong — the same reason
+     * Shop::inPrecedenceOrder() exists at all.
+     *
+     * The ordering is load-bearing, not cosmetic: PHP sorts are stable, so
+     * sorting by coverage descending leaves shops of equal coverage in their
+     * incoming id order — and that is how "a tie goes to the shop added first"
+     * is implemented. Reversing these two operations breaks the rule silently.
      *
      * @param  Collection<int, Product>  $products
-     * @param  Collection<int, Shop>  $shops
      */
-    public static function for(Collection $products, Collection $shops): self
+    public static function for(Collection $products): self
     {
+        $shops = Shop::query()->with('categories')->inPrecedenceOrder()->get();
+
         // Coverage counts distinct categories, not products: three products in
         // two categories are two categories' worth of reason to drive there.
         $wanted = $products->pluck('category_id')->unique();

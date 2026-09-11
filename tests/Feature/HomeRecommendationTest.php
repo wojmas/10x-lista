@@ -74,6 +74,28 @@ class HomeRecommendationTest extends TestCase
             ->assertDontSee('Jedź do', escape: false);
     }
 
+    /**
+     * The state a freshly set-up instance is in: products added, no shops
+     * configured yet. It renders the same no-match panel as a list nothing
+     * covers, because the repair is the same in both cases — go configure the
+     * shops. Kept as its own test because it is the only one that runs the rule
+     * against an empty shop collection.
+     */
+    public function test_a_list_with_no_shops_at_all_points_at_the_shop_configuration(): void
+    {
+        Product::factory()->create([
+            'category_id' => Category::factory()->create(['name' => 'Nabiał'])->id,
+        ]);
+
+        $this->assertSame(0, Shop::count());
+
+        $this->actingAs(User::factory()->create())
+            ->get('/')
+            ->assertOk()
+            ->assertSee('Żaden sklep nie pokrywa kategorii z tej listy.', escape: false)
+            ->assertSee(route('shops.index'), escape: false);
+    }
+
     public function test_the_alternative_is_shown_only_when_it_covers_something(): void
     {
         $dairy = Category::factory()->create(['name' => 'Nabiał']);

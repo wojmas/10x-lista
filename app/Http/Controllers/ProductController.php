@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Shop;
 use App\Support\CategoryResolver;
 use App\Support\ShopRecommendation;
 use Illuminate\Http\RedirectResponse;
@@ -33,12 +32,10 @@ class ProductController extends Controller
             'products' => $products,
             // Recalculated on every visit rather than stored: adding a product
             // redirects back here, which is what makes US-01's "updates after
-            // every addition" true without any cache to invalidate. Categories
-            // are eager-loaded because the rule reads them for every shop.
-            'recommendation' => ShopRecommendation::for(
-                $products,
-                Shop::query()->with('categories')->inPrecedenceOrder()->get(),
-            ),
+            // every addition" true without any cache to invalidate. The rule
+            // reads the shops itself — see its docblock for why that is not the
+            // controller's job.
+            'recommendation' => ShopRecommendation::for($products),
         ]);
     }
 

@@ -150,14 +150,12 @@ class ShopRecommendationTest extends TestCase
     }
 
     /**
-     * Feed the rule the same inputs the home screen does, shops included in
-     * precedence order.
+     * Feed the rule the same input the home screen does. The shops it scores
+     * against are the rule's own business — it reads them itself, which is why
+     * no test here can hand it a badly ordered collection.
      */
     private function recommend(): ShopRecommendation
     {
-        return ShopRecommendation::for(
-            Product::query()->with('category')->get(),
-            Shop::query()->with('categories')->inPrecedenceOrder()->get(),
-        );
+        return ShopRecommendation::for(Product::query()->with('category')->get());
     }
 }
