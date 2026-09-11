@@ -317,7 +317,7 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Automated
 
-- [x] 3.1 Testy nadal przechodzą: `composer test`
+- [x] 3.1 Testy nadal przechodzą: `composer test` — f6a86a2
 
 #### Manual
 
