@@ -27,7 +27,15 @@
                                     <span class="text-gray-900 font-medium break-words">{{ $shop->name }}</span>
 
                                     <div class="flex flex-wrap items-center gap-4">
+                                        {{--
+                                            aria-label, bo sam napis powtarza się w
+                                            każdym wierszu: czytnik ekranu przeglądający
+                                            listę akcji odczytałby „Edytuj, Edytuj,
+                                            Edytuj" bez wskazania sklepu (WCAG 2.4.4).
+                                            Widoczny tekst zostaje krótki.
+                                        --}}
                                         <a href="{{ route('shops.edit', $shop) }}"
+                                            aria-label="Edytuj sklep {{ $shop->name }}"
                                             class="text-sm text-gray-600 underline hover:text-gray-900">
                                             Edytuj
                                         </a>
@@ -39,10 +47,12 @@
                                             której nie odtwarza samo wpisanie nazwy.
                                             Przy wyłączonym JS formularz nadal wysyła się
                                             poprawnie, tylko bez pytania.
+
+                                            Nazwa sklepu idzie w komunikacie przez @js, a nie
+                                            przez zwykłe echo: apostrof w nazwie zamknąłby
+                                            łańcuch JS w atrybucie onsubmit.
                                         --}}
                                         <form method="POST" action="{{ route('shops.destroy', $shop) }}"
-                                            {{-- Nazwa idzie przez @js, nie przez {{ }}: apostrof w nazwie
-                                                 sklepu zamknąłby łańcuch JS w tym atrybucie. --}}
                                             onsubmit="return confirm('Usunąć sklep ' + @js($shop->name) + '? Przypisane mu kategorie przepadną, a rekomendacja przeliczy się bez niego.')">
                                             @csrf
                                             @method('DELETE')
@@ -52,6 +62,7 @@
                                                 zmienił domyślny kursor przycisku na `default`.
                                             --}}
                                             <button type="submit"
+                                                aria-label="Usuń sklep {{ $shop->name }}"
                                                 class="cursor-pointer inline-flex items-center px-3 py-1.5 rounded-md bg-red-600 text-xs font-semibold text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                                 Usuń
                                             </button>

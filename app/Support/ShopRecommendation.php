@@ -12,8 +12,9 @@ use Illuminate\Support\Collection;
  * §Business Logic settles it: the shop covering the most distinct categories
  * from the list wins, and a tie goes to the shop added first. This is the only
  * feature separating the product from any shared shopping list, so the rule
- * lives in one place — the home screen reads it today and S-05 will read the
- * same object after a product is ticked off.
+ * lives in one place — the home screen recomputes it on every visit, which is
+ * what makes ticking a product off, or editing a shop, feed straight back into
+ * the answer with no cache to invalidate.
  *
  * The count runs in PHP rather than as a SQL COUNT on purpose. A rule expressed
  * in SQL is exposed to the very engine divergence that context/foundation/test-plan.md
@@ -78,9 +79,10 @@ final readonly class ShopRecommendation
         // The collection is sorted descending, so the first two entries are the
         // two best-covering shops, already tie-broken by id.
         //
-        // A shop covering nothing is legal in the database (only the form
-        // rejects it, and S-06 will produce one by removing categories), but it
-        // is not a recommendation — sending someone to a shop we know stocks
+        // A shop covering nothing is legal in the database (only the add form
+        // rejects it; the edit screen produces one whenever a member clears its
+        // categories, which is how a shop is taken out of the running without
+        // deleting it), but it is not a recommendation — sending someone to a shop we know stocks
         // none of their list is the mistake this product exists to prevent. The
         // same reasoning drops a zero-coverage runner-up: "alternative: Żabka
         // (0 of 4)" is noise that undermines the panel it sits in.

@@ -203,6 +203,20 @@ class EditShopTest extends TestCase
         $this->assertStringNotContainsString("value=\"{$bread->id}\" checked", $markup);
     }
 
+    /**
+     * The edit routes take a route-model-bound {shop} precisely so that a stale
+     * link or a hand-edited URL answers 404 instead of rendering a form over
+     * nothing. Removal deliberately does the opposite (RemoveShopTest pins that
+     * half), so without this test a refactor swapping one for the other would
+     * pass the suite.
+     */
+    public function test_editing_a_shop_that_does_not_exist_is_a_404(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get('/shops/999999/edit')
+            ->assertNotFound();
+    }
+
     public function test_guests_are_redirected_to_login_on_both_routes(): void
     {
         $shop = Shop::factory()->create(['name' => 'Biedronka']);

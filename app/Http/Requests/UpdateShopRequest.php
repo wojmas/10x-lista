@@ -84,6 +84,13 @@ class UpdateShopRequest extends FormRequest
      * Names are read into PHP rather than compared in SQL, for the same reason
      * as everywhere else in this codebase: LOWER() is ASCII-only in the SQLite
      * used by tests but locale-aware in production Postgres.
+     *
+     * The check is no more atomic here than in StoreShopRequest, and the same
+     * trade-off is accepted for the same reason: two members renaming shops onto
+     * the same name in the same moment both pass it, and the second trips the
+     * unique index on shops.name as a 500 where a validation message would be
+     * kinder. Read the closing paragraph of StoreShopRequest::notAlreadyConfigured()
+     * for why that is left alone at a family's scale.
      */
     private function notTakenByAnotherShop(): Closure
     {

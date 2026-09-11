@@ -46,7 +46,9 @@ class ShopController extends Controller
      *
      * Both halves run in a transaction: a shop that lost its categories to a
      * failure halfway through would sit in the list looking configured while
-     * covering nothing, and no screen in the MVP can repair it (that is S-06).
+     * covering nothing. The edit screen can repair that today, but only if
+     * somebody notices — the shop list says so on the row, and the
+     * recommendation simply passes such a shop over.
      * sync() also collapses a category picked twice — the checkbox list and the
      * typed-in name can name the same one — independently of the unique
      * constraint on the pivot.

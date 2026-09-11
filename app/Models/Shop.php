@@ -43,7 +43,11 @@ class Shop extends Model
      * filled table, so the assertion never gets the chance to fail. The
      * divergence is real but Postgres-only and latent: after an UPDATE to an
      * indexed column the new tuple lands at the end of the heap, so the shop
-     * added first comes back last. Nothing renames a shop until S-06.
+     * added first comes back last. Renaming a shop does exactly that UPDATE and
+     * the edit screen makes it an everyday act, so the only thing keeping the
+     * tie-break honest is that both consumers go through this scope. A query
+     * that reads shops without it will look right on SQLite and be wrong on
+     * production Postgres the first time somebody fixes a typo in a shop name.
      *
      * The proof belongs to §3 Phase 4 of context/foundation/test-plan.md, which
      * runs the suite on Postgres. Until it lands, this docblock is the contract.
