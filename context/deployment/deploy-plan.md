@@ -153,10 +153,12 @@ Gdy strata jest całościowa i nie ma czego scalać:
 
 Ścieżkę trzeba przeklikać raz, na sucho, zanim będzie potrzebna pod presją — inaczej jest deklaracją, nie zabezpieczeniem. Test wariantem bezpiecznym (gałąź z przeszłości), więc produkcja nie jest dotykana:
 
-- [ ] W panelu Neona utworzona gałąź z punktu sprzed ~1 godziny
-- [ ] Na tej gałęzi widać dane: sklepy z kategoriami i produkty
-- [ ] Gałąź testowa skasowana po sprawdzeniu (limit 10 gałęzi na free)
-- [ ] Nazwy przycisków i ścieżka w panelu zgadzają się z opisem wyżej — jeśli Neon przemianował UI, poprawić tę sekcję
+- [x] W panelu Neona utworzona gałąź z punktu sprzed ~1 godziny
+- [x] Na tej gałęzi widać dane: sklepy z kategoriami i produkty
+- [x] Gałąź testowa skasowana po sprawdzeniu (limit 10 gałęzi na free)
+- [x] Nazwy przycisków i ścieżka w panelu zgadzają się z opisem wyżej — jeśli Neon przemianował UI, poprawić tę sekcję
+
+**Przeklikane i potwierdzone przez właściciela 2026-09-11.** Procedurę wyżej spisano z dokumentacji Neona, a właściciel potwierdził, że działa w jego panelu. Gdyby przy prawdziwej awarii ścieżka w UI okazała się inna, popraw tę sekcję od razu — dokument ma być czytany pod presją, nie redagowany.
 
 ### Obserwacja produkcyjna (2026-09-11)
 

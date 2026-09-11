@@ -1,7 +1,7 @@
 ---
 change_id: trwalosc-danych-produkcyjnych
 title: Udokumentowana i raz przeklikana ścieżka odtworzenia produkcyjnej bazy
-status: implementing
+status: implemented
 created: 2026-09-11
 updated: 2026-09-11
 archived_at: null
@@ -18,4 +18,4 @@ Wariant A ze ścieżek rozważanych 2026-09-11 (A = tylko dokumentacja, B = doku
 - `context/foundation/infrastructure.md` → wiersz ryzyka o brakujących backupach oznaczony jako częściowo zmitygowany.
 - `context/foundation/roadmap.md` → unknown o retencji Neona rozstrzygnięty, F-01 na `in-progress`.
 
-**Zostało (właściciel, w panelu Neona):** checklista „Dowód, że to działa" w sekcji „Odtworzenie bazy" — gałąź z przeszłości, sprawdzenie danych, skasowanie gałęzi, korekta nazw w panelu, jeśli UI się rozjechało. Dopiero to zamyka F-01.
+**Zrobione (właściciel, w panelu Neona) 2026-09-11:** checklista „Dowód, że to działa" odhaczona — gałąź z przeszłości utworzona, dane na niej widoczne, gałąź skasowana, opis zgodny z panelem. Ścieżka odtworzenia jest potwierdzona, nie tylko zadeklarowana — co domyka outcome F-01.
