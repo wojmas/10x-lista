@@ -303,9 +303,9 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Automated
 
-- [x] 2.1 Testy przechodzą: `composer test`
-- [x] 2.2 Nowe testy kasowania przechodzą: `php artisan test --filter=RemoveShopTest`
-- [x] 2.3 Formatowanie zgodne: `./vendor/bin/pint --test`
+- [x] 2.1 Testy przechodzą: `composer test` — 476d934
+- [x] 2.2 Nowe testy kasowania przechodzą: `php artisan test --filter=RemoveShopTest` — 476d934
+- [x] 2.3 Formatowanie zgodne: `./vendor/bin/pint --test` — 476d934
 
 #### Manual
 
@@ -317,7 +317,7 @@ Brak migracji. Schemat pokrywa tę zmianę w całości: kaskada na `category_sho
 
 #### Automated
 
-- [ ] 3.1 Testy nadal przechodzą: `composer test`
+- [x] 3.1 Testy nadal przechodzą: `composer test`
 
 #### Manual
 

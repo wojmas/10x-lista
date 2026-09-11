@@ -1,6 +1,6 @@
 ---
 project: "Lista Zakupów"
-version: 1
+version: 2
 status: draft
 created: 2026-05-19
 context_type: greenfield
@@ -79,6 +79,10 @@ Współdzielone listy (Google Keep, WhatsApp, kartka na lodówce) rozwiązują t
 ### Konfiguracja sklepów
 - FR-008: Członek może dodać sklep i przypisać mu kategorie produktów w osobnym widoku. Priority: must-have
   > Socrates: Brak kontrargumentu — bez tego rekomendacja nie ma danych.
+- FR-009: Członek może zmienić nazwę sklepu oraz zestaw przypisanych mu kategorii. Priority: must-have
+  > Socrates: Kontrargument: przy 3-5 sklepach można skasować sklep i dodać go od nowa. Rezolucja: odrzucony — dodanie od nowa przesuwa sklep na koniec kolejności rozstrzygającej remis (§Business Logic), więc naprawa kategorii zmieniałaby wynik rekomendacji. Pierwsze przypisanie kategorii prawie nigdy nie jest kompletne, a bez edycji jedyną drogą naprawy jest zmiana w bazie danych.
+- FR-010: Członek może usunąć sklep, którego już nie używa. Priority: must-have
+  > Socrates: Kontrargument: sklep bez kategorii i tak nie trafia do rekomendacji, więc kasowanie jest zbędne. Rezolucja: odrzucony — pomyłkowo dodany albo zamknięty sklep zostawałby na liście na zawsze. Usunięcie jest trwałe i poprzedzone potwierdzeniem; kategorie sklepu zostają, bo opisują też produkty.
 
 ## Non-Functional Requirements
 

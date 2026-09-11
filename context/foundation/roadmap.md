@@ -4,7 +4,7 @@ version: 1
 status: draft
 created: 2026-08-31
 updated: 2026-09-11
-prd_version: 1
+prd_version: 2
 main_goal: quality
 top_blocker: none
 ---
@@ -37,7 +37,7 @@ Cechą odróżniającą ten produkt — jedyną, której usunięcie sprowadziło
 | S-03 | `konfiguracja-sklepow`          | dodać sklep i przypisać mu kategorie produktów                         | S-02          | FR-008, US-01                | done     |
 | S-04 | `rekomendacja-sklepu`           | zobaczyć rekomendowany sklep przeliczany po każdej zmianie listy       | S-02, S-03    | FR-007, US-01                | done     |
 | S-05 | `usuwanie-kupionych-produktow`  | usunąć kupiony produkt i zobaczyć przeliczoną bez niego rekomendację   | S-04          | FR-006, US-01                | done     |
-| S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | brak FR — patrz pytanie 3    | in-progress |
+| S-06 | `edycja-i-usuwanie-sklepow`     | poprawić kategorie przypisane sklepowi i usunąć sklep                  | S-03          | FR-009, FR-010               | in-progress |
 
 ## Streams
 
@@ -145,7 +145,7 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 
 - **Outcome:** użytkownik poprawia zestaw kategorii przypisanych sklepowi oraz usuwa sklep, który przestał być potrzebny.
 - **Change ID:** `edycja-i-usuwanie-sklepow`
-- **PRD refs:** brak — żadne FR nie opisuje edycji ani usuwania sklepu. Sąsiaduje z FR-008, ale go nie realizuje. Rozstrzygnięcie odłożone do planowania tej pozycji (Otwarte pytanie 3).
+- **PRD refs:** FR-009, FR-010 (dopisane do PRD 2026-09-11, `version` → 2; patrz rozstrzygnięte Otwarte pytanie 3)
 - **Prerequisites:** S-03
 - **Parallel with:** F-01, S-04, S-05
 - **Blockers:** —
@@ -165,13 +165,13 @@ Fundamenty poniżej zakładają, że to istnieje, i **nie** budują tego ponowni
 | S-03       | `konfiguracja-sklepow`          | Dodawanie sklepów i przypisywanie im kategorii                  | done                  | Zarchiwizowane 2026-09-10                |
 | S-04       | `rekomendacja-sklepu`           | Rekomendacja sklepu przeliczana po każdej zmianie listy         | no                    | Gwiazda przewodnia; czeka na S-03        |
 | S-05       | `usuwanie-kupionych-produktow`  | Usuwanie kupionych produktów i przeliczenie rekomendacji        | no                    | Czeka na S-04                            |
-| S-06       | `edycja-i-usuwanie-sklepow`     | Edycja kategorii sklepu i usuwanie sklepu                       | no                    | Czeka na S-03; brak pokrycia w FR — patrz Otwarte pytanie 3 |
+| S-06       | `edycja-i-usuwanie-sklepow`     | Edycja kategorii sklepu i usuwanie sklepu                       | no                    | W trakcie wdrożenia; pokryte przez FR-009 i FR-010          |
 
 ## Open Roadmap Questions
 
 1. ~~**Czy kategoria produktu to wybór ze stałej, wcześniej zdefiniowanej listy, czy dowolny tekst wpisywany przez użytkownika?**~~ — **Rozstrzygnięte 2026-09-09 przy planowaniu S-02**: osobna tabela kategorii z możliwością dopisania nowej z formularza, a porównanie nazw idzie przez `App\Support\NameComparison` (bez wielkości liter i spacji po bokach, polskie znaki znaczące). Szczegóły w `context/archive/2026-09-09-wspolna-lista-produktow/plan.md`.
 2. **Kiedy wdrożyć panel administracyjny do zarządzania kontami?** — Owner: twórca. Block: roadmap-wide (nic obecnie nie blokuje). FR-002/FR-003 są odłożone jako nice-to-have; na MVP konta zakładane wstępnie poza aplikacją. Przeniesione z §Open Questions PRD.
-3. **Czy edycja i usuwanie sklepów dostają własne wymaganie w PRD, czy zostają rozszerzeniem zakresu poza PRD?** — Owner: twórca. Block: S-06 (nie blokuje planowania, ale S-06 jest jedyną pozycją roadmapy bez czystego odwołania do FR). §Wymagania funkcjonalne mają wyłącznie FR-008 „dodać sklep i przypisać mu kategorie" — nic o poprawianiu ani kasowaniu. Rozstrzygnięcie: albo PRD dostaje FR-009/FR-010 i podbicie `version`, albo S-06 zostaje udokumentowanym rozszerzeniem zakresu przez właściciela.
+3. ~~**Czy edycja i usuwanie sklepów dostają własne wymaganie w PRD, czy zostają rozszerzeniem zakresu poza PRD?**~~ — **Rozstrzygnięte 2026-09-11 przy wdrażaniu S-06**: PRD dostał FR-009 (zmiana nazwy i zestawu kategorii sklepu) oraz FR-010 (usunięcie sklepu), oba must-have, a `version` podbite do 2. Powód odrzucenia wariantu „rozszerzenie zakresu": kod realizowałby wtedy funkcję, której żadne wymaganie nie opisuje.
 
 ## Parked
 
