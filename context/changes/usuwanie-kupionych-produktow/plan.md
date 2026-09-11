@@ -365,16 +365,16 @@ Cztery odstępstwa od tego planu, podjęte w trakcie Fazy 1.
 
 #### Automated
 
-- [x] 1.1 Zestaw Feature przechodzi: `docker compose exec app php vendor/bin/phpunit --testsuite Feature`
-- [x] 1.2 Cały zestaw przechodzi: `docker compose exec app composer test`
-- [x] 1.3 Formatowanie czyste: `docker compose exec app php artisan pint --test`
-- [x] 1.4 Próba obalenia: `Product $product` w sygnaturze `destroy()` wywraca dokładnie test wyścigu
-- [x] 1.5 Próba obalenia: usunięcie `@method('DELETE')` wywraca testy usuwania
+- [x] 1.1 Zestaw Feature przechodzi: `docker compose exec app php vendor/bin/phpunit --testsuite Feature` — e493636
+- [x] 1.2 Cały zestaw przechodzi: `docker compose exec app composer test` — e493636
+- [x] 1.3 Formatowanie czyste: `docker compose exec app php artisan pint --test` — e493636
+- [x] 1.4 Próba obalenia: `Product $product` w sygnaturze `destroy()` wywraca dokładnie test wyścigu — e493636
+- [x] 1.5 Próba obalenia: usunięcie `@method('DELETE')` wywraca testy usuwania — e493636
 
 #### Manual
 
-- [x] 1.6 Kliknięcie usuwa właściwy wiersz przy podobnych nazwach
-- [x] 1.7 Panel rekomendacji pokazuje przeliczony wynik bez usuniętego produktu
-- [x] 1.8 Długa nazwa zawija się czytelnie na szerokości 375 px
-- [x] 1.9 Usunięcie ostatniego produktu pokazuje stan pusty i komunikat rekomendacji
-- [x] 1.10 Produkt usunięty w jednej sesji znika w drugiej po odświeżeniu
+- [x] 1.6 Kliknięcie usuwa właściwy wiersz przy podobnych nazwach — e493636
+- [x] 1.7 Panel rekomendacji pokazuje przeliczony wynik bez usuniętego produktu — e493636
+- [x] 1.8 Długa nazwa zawija się czytelnie na szerokości 375 px — e493636
+- [x] 1.9 Usunięcie ostatniego produktu pokazuje stan pusty i komunikat rekomendacji — e493636
+- [x] 1.10 Produkt usunięty w jednej sesji znika w drugiej po odświeżeniu — e493636
