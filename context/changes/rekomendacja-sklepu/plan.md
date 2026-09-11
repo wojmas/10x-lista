@@ -444,6 +444,40 @@ konwersji — reguła czyta to, co S-02 i S-03 już zapisały.
 - Kontrakt precedencji: `app/Http/Controllers/ShopController.php:19-44`
 - Wzorzec reguły w `App\Support`: `app/Support/CategoryResolver.php`, `app/Support/NameComparison.php`
 
+## Deviations taken during implementation
+
+Zgodnie z regułą z `context/foundation/lessons.md` — decyzje podjęte przy
+wdrożeniu, których plan nie przewidział, zapisane tutaj, nie tylko w rozmowie.
+
+**Faza 1** (`06f664e`):
+
+- **Piąty test w `ShopRecommendationTest`.** Plan wymieniał cztery; doszedł
+  `test_an_empty_shopping_list_has_no_recommendation`. Powód: pusta lista jest
+  stanem reguły, nie tylko widoku — bez niego bramka `covered > 0` dla
+  zwycięzcy miała dowód wyłącznie przez sklep bez kategorii.
+- **Scope przez atrybut `#[Scope]`, nie przez prefiks `scopeInPrecedenceOrder`.**
+  Laravel 13 wspiera oba; wybrano atrybut dla zgodności ze stylem modeli w tym
+  projekcie (`#[Fillable]`).
+- **Próby obalenia wykonane mechanicznie przez agenta**, nie potwierdzone ręcznie
+  przez właściciela — wymuszone trybem autonomicznym sesji. Wyniki (cztery próby,
+  cztery trafienia) są odtwarzalne: cofnij regułę, uruchom `--filter ShopRecommendationTest`.
+
+**Faza 2**:
+
+- **Bez `trans_choice`.** Plan dopuszczał dwie drogi dla odmiany liczebnika i
+  wybrano tańszą: „z N kategorii" stoi w dopełniaczu, którego forma jest ta sama
+  dla liczby pojedynczej i mnogiej, więc jeden string obsługuje 1, 2 i 5. Katalog
+  `lang/` nie dostał nowego pliku.
+- **Weryfikacja 2.8 i 2.10 wykonana sondami**, nie ręcznie: jednorazowy test
+  liczący zapytania (4 na `/`, niezależnie od liczby sklepów i produktów) oraz
+  jednorazowy test przechodzący ścieżkę dodania produktu (licznik szedł
+  „pusta lista" → „1 z 1" → „1 z 2"). Oba pliki usunięte po odczycie — nie
+  weszły do zestawu.
+- **Weryfikacja 2.9 na szerokości telefonu nie została wykonana w przeglądarce.**
+  Panel używa tej samej karty i tych samych klas co lista produktów, a nazwa
+  sklepu ma `break-words` — ale to argument z podobieństwa, nie obejrzenie.
+  Pozostaje do sprawdzenia przez właściciela.
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
@@ -452,34 +486,34 @@ konwersji — reguła czyta to, co S-02 i S-03 już zapisały.
 
 #### Automated
 
-- [x] 1.1 Pokrycie liczy różne kategorie, nie produkty
-- [x] 1.2 Remis rozstrzyga sklep o niższym `id`
-- [x] 1.3 Sklep o zerowym pokryciu nie wygrywa ani nie zostaje alternatywą
-- [x] 1.4 Alternatywa pojawia się wyłącznie przy pokryciu większym od zera
-- [x] 1.5 Cały zestaw zielony
-- [x] 1.6 Formatowanie czyste
+- [x] 1.1 Pokrycie liczy różne kategorie, nie produkty — 06f664e
+- [x] 1.2 Remis rozstrzyga sklep o niższym `id` — 06f664e
+- [x] 1.3 Sklep o zerowym pokryciu nie wygrywa ani nie zostaje alternatywą — 06f664e
+- [x] 1.4 Alternatywa pojawia się wyłącznie przy pokryciu większym od zera — 06f664e
+- [x] 1.5 Cały zestaw zielony — 06f664e
+- [x] 1.6 Formatowanie czyste — 06f664e
 
 #### Manual
 
-- [x] 1.7 Próba obalenia: sortowanie po nazwie wywala dokładnie test remisu
-- [x] 1.8 Próba obalenia: liczenie produktów wywala dokładnie test pokrycia
-- [x] 1.9 `test-plan.md` §6.3 i §3 odzwierciedlają konsolidację klauzuli
-- [x] 1.10 `/shops` listuje sklepy w tej samej kolejności co przed refaktorem
+- [x] 1.7 Próba obalenia: sortowanie po nazwie wywala dokładnie test remisu — 06f664e
+- [x] 1.8 Próba obalenia: liczenie produktów wywala dokładnie test pokrycia — 06f664e
+- [x] 1.9 `test-plan.md` §6.3 i §3 odzwierciedlają konsolidację klauzuli — 06f664e
+- [x] 1.10 `/shops` listuje sklepy w tej samej kolejności co przed refaktorem — 06f664e
 
 ### Faza 2: Panel rekomendacji na stronie głównej
 
 #### Automated
 
-- [ ] 2.1 Panel pokazuje zwycięzcę i licznik pokrycia
-- [ ] 2.2 Pusta lista pokazuje komunikat zamiast sklepu
-- [ ] 2.3 Brak dopasowania pokazuje komunikat o braku dopasowania
-- [ ] 2.4 Alternatywa widoczna wyłącznie przy pokryciu większym od zera
-- [ ] 2.5 Cały zestaw zielony
-- [ ] 2.6 Formatowanie czyste
+- [x] 2.1 Panel pokazuje zwycięzcę i licznik pokrycia
+- [x] 2.2 Pusta lista pokazuje komunikat zamiast sklepu
+- [x] 2.3 Brak dopasowania pokazuje komunikat o braku dopasowania
+- [x] 2.4 Alternatywa widoczna wyłącznie przy pokryciu większym od zera
+- [x] 2.5 Cały zestaw zielony
+- [x] 2.6 Formatowanie czyste
 
 #### Manual
 
-- [ ] 2.7 Próba obalenia każdego z czterech testów panelu
-- [ ] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją
+- [x] 2.7 Próba obalenia każdego z czterech testów panelu
+- [x] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją
 - [ ] 2.9 Panel czyta się na szerokości telefonu, odmiana liczebnika poprawna dla 1, 2 i 5
-- [ ] 2.10 Strona główna nie strzela zapytaniem na sklep
+- [x] 2.10 Strona główna nie strzela zapytaniem na sklep

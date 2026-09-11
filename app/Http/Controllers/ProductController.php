@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Shop;
 use App\Support\CategoryResolver;
+use App\Support\ShopRecommendation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -17,16 +19,26 @@ class ProductController extends Controller
      * The query deliberately has no owner filter: the PRD guardrail requires an
      * added product to be visible to every logged-in family member, and the
      * product rules out multi-tenancy. The category relation is eager-loaded so
-     * rendering the list does not fire one query per row — S-04 will read the
-     * same relation for every product on every recommendation recalculation.
+     * rendering the list does not fire one query per row — the recommendation
+     * reads the same relation for every product on every recalculation.
      */
     public function index(): View
     {
+        $products = Product::query()
+            ->with('category')
+            ->latest()
+            ->get();
+
         return view('home', [
-            'products' => Product::query()
-                ->with('category')
-                ->latest()
-                ->get(),
+            'products' => $products,
+            // Recalculated on every visit rather than stored: adding a product
+            // redirects back here, which is what makes US-01's "updates after
+            // every addition" true without any cache to invalidate. Categories
+            // are eager-loaded because the rule reads them for every shop.
+            'recommendation' => ShopRecommendation::for(
+                $products,
+                Shop::query()->with('categories')->inPrecedenceOrder()->get(),
+            ),
         ]);
     }
 

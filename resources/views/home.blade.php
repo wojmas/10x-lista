@@ -14,6 +14,44 @@
 
     <div class="py-8 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {{--
+                Rekomendacja stoi nad listą, bo to ona odpowiada na pytanie „gdzie
+                jechać" — lista mówi tylko „co kupić". Odmiana po liczbie nie jest
+                tu potrzebna: „z N kategorii" ma tę samą formę dopełniacza dla
+                jednej i dla wielu.
+            --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 p-6">
+                @if ($recommendation->total === 0)
+                    <p class="text-gray-900">
+                        Dodaj produkty, żeby zobaczyć rekomendowany sklep.
+                    </p>
+                @elseif ($recommendation->shop === null)
+                    <p class="text-gray-900">
+                        Żaden sklep nie pokrywa kategorii z tej listy.
+                    </p>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Sprawdź kategorie przypisane sklepom w
+                        <a href="{{ route('shops.index') }}"
+                            class="text-indigo-600 underline hover:text-indigo-500">konfiguracji sklepów</a>.
+                    </p>
+                @else
+                    <p class="text-sm text-gray-500">Jedź do</p>
+                    <p class="mt-1 text-2xl font-semibold text-gray-900 break-words">
+                        {{ $recommendation->shop->name }}
+                    </p>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Pokrywa {{ $recommendation->covered }} z {{ $recommendation->total }} kategorii z listy.
+                    </p>
+
+                    @if ($recommendation->alternative !== null)
+                        <p class="mt-4 text-sm text-gray-500 break-words">
+                            Alternatywa: <span class="font-medium text-gray-900">{{ $recommendation->alternative->name }}</span>
+                            — {{ $recommendation->alternativeCovered }} z {{ $recommendation->total }} kategorii.
+                        </p>
+                    @endif
+                @endif
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @if ($products->isEmpty())
                     <div class="p-6 text-gray-900">
