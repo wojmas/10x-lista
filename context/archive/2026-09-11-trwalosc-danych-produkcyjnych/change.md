@@ -1,10 +1,10 @@
 ---
 change_id: trwalosc-danych-produkcyjnych
 title: Udokumentowana i raz przeklikana ścieżka odtworzenia produkcyjnej bazy
-status: implemented
+status: archived
 created: 2026-09-11
 updated: 2026-09-11
-archived_at: null
+archived_at: 2026-09-11T11:35:45Z
 ---
 
 ## Notes
