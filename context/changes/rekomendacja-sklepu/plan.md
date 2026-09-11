@@ -473,10 +473,23 @@ wdrożeniu, których plan nie przewidział, zapisane tutaj, nie tylko w rozmowie
   jednorazowy test przechodzący ścieżkę dodania produktu (licznik szedł
   „pusta lista" → „1 z 1" → „1 z 2"). Oba pliki usunięte po odczycie — nie
   weszły do zestawu.
-- **Weryfikacja 2.9 na szerokości telefonu nie została wykonana w przeglądarce.**
-  Panel używa tej samej karty i tych samych klas co lista produktów, a nazwa
-  sklepu ma `break-words` — ale to argument z podobieństwa, nie obejrzenie.
-  Pozostaje do sprawdzenia przez właściciela.
+- **Weryfikacja 2.9 wykonana przez realny stos HTTP, nie w przeglądarce.**
+  Przeglądarki bezgłowej w projekcie nie ma, a `test-plan.md` §7 wyklucza e2e —
+  instalowanie Playwrighta dla jednej pozycji manualnej byłoby zmianą strategii
+  testów, nie jej wykonaniem. Zamiast tego: zalogowana sesja przez `curl` przez
+  nginx do PHP-FPM, odczyt wyrenderowanego HTML we wszystkich trzech stanach
+  panelu. Odmiana liczebnika sprawdzona na żywym wyjściu dla 1, 2 i 5
+  („Pokrywa 1 z 1 / 2 z 2 / 3 z 5 kategorii z listy" — dopełniacz `kategorii` w
+  każdym przypadku). Szerokość telefonu: w znaczniku panelu nie ma
+  `whitespace-nowrap`, `min-w-*`, stałej szerokości, `truncate`, flexa ani grida
+  — same `<p>`, które zawijają domyślnie, a nazwa sklepu i linia alternatywy
+  mają `break-words`; sprawdzone na 44-znakowej nazwie sklepu. `<meta
+  name="viewport">` obecny w `layouts/app.blade.php:5`. To dowód na poziomie
+  znacznika, nie zrzut ekranu — jeśli właściciel chce obejrzenia, zostaje
+  obejrzenie.
+- **Sonda HTTP zapisywała do deweloperskiej bazy**, która przed sondą była pusta
+  (0 użytkowników, 0 produktów, 0 sklepów, 0 kategorii) i została przywrócona do
+  tego stanu po odczycie.
 
 ## Progress
 
@@ -515,5 +528,5 @@ wdrożeniu, których plan nie przewidział, zapisane tutaj, nie tylko w rozmowie
 
 - [x] 2.7 Próba obalenia każdego z czterech testów panelu — 1fcf0de
 - [x] 2.8 Dodanie produktu przeładowuje stronę główną ze zaktualizowaną rekomendacją — 1fcf0de
-- [ ] 2.9 Panel czyta się na szerokości telefonu, odmiana liczebnika poprawna dla 1, 2 i 5
+- [x] 2.9 Panel czyta się na szerokości telefonu, odmiana liczebnika poprawna dla 1, 2 i 5 — 922615b
 - [x] 2.10 Strona główna nie strzela zapytaniem na sklep — 1fcf0de
